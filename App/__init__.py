@@ -30,8 +30,14 @@ def test_page():
     people=input['people']
     prefer=input['prefer']
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
-    print(data)
-    return jsonify({'a':'ok!'})
+    retrundata={
+        'number':'3',
+        'data':[
+            {'gotime':'06:34','arrivetime':'08:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']},
+            {'gotime':'07:34','arrivetime':'09:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']},
+            {'gotime':'08:34','arrivetime':'10:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']}
+        ]}
+    return jsonify(retrundata)
 
 @app.route('/time/',methods=['GET'])
 def time_page():
