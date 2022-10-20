@@ -4,11 +4,11 @@ import datetime
 
 app=Flask(__name__)
 chiness_weeksate=['零','一','二','三','四','五','六','日']
-@app.route('/',methods=['GET'])
-def home_page():
-    data_set={'Page':'Home','Messege':'Sucess loaded the home page','Timestamp':time.time()}
-    json_dump=json.dumps(data_set)
-    return json_dump
+# @app.route('/',methods=['GET'])
+# def home_page():
+#     data_set={'Page':'Home','Messege':'Sucess loaded the home page','Timestamp':time.time()}
+#     json_dump=json.dumps(data_set)
+#     return json_dump
 
 @app.route('/user/',methods=['GET'])
 def request_page():
@@ -42,7 +42,3 @@ def time_page():
     data_set={'YMD':YMD,'HM':HM,'W':W}
     json_dump=json.dumps(data_set)
     return json_dump
-
-
-if __name__=='__main__':
-    app.run(port=7777,debug=True)
