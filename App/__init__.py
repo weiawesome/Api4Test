@@ -36,7 +36,7 @@ def test_page():
             {'gotime':'07:34','arrivetime':'09:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']},
             {'gotime':'08:34','arrivetime':'10:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']}
         ]}
-    return jsonify(retrundata)
+    return json.dumps(retrundata)
 
 @app.route('/time/',methods=['GET'])
 def time_page():
