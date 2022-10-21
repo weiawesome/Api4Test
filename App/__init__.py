@@ -1,6 +1,7 @@
 from flask import *
 import time,json
 import datetime
+import random
 
 app=Flask(__name__)
 chiness_weeksate=['零','一','二','三','四','五','六','日']
@@ -30,20 +31,38 @@ def test_page():
     people=input['people']
     prefer=input['prefer']
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
-    retrundata={
-        'data':[
-            {'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']},
-            {'gotime':'07:34','arrivetime':'09:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']},
-            {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime':'08:34','arrivetime':'10:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']}
-        ]}
+    num=random.randint(0, 20)
+    datas=[]
+    for i in range(num):
+        datas.append({'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']});
+    # retrundata = {
+    #     'data': [
+    #         {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']},
+    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
+    #          'stations': ['a', 'b', 'c']}
+    #     ]}
+    retrundata = {
+        'data': datas
+        }
     json_dump=json.dumps(retrundata)
     return json_dump
 
