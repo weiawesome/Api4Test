@@ -32,17 +32,17 @@ def test_page():
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
     retrundata={
         'data':[
-            {'gotime':'06:34','arrivetime':'08:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']},
-            {'gotime':'07:34','arrivetime':'09:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']},
-            {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2:06', 'orderof': '803', 'stations': ['a', 'b', 'c']},
-            {'gotime':'08:34','arrivetime':'10:40','totaltime':'2:06','orderof':'803','stations':['a','b','c']}
+            {'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']},
+            {'gotime':'07:34','arrivetime':'09:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']},
+            {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803', 'stations': ['a', 'b', 'c']},
+            {'gotime':'08:34','arrivetime':'10:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']}
         ]}
     json_dump=json.dumps(retrundata)
     return json_dump
