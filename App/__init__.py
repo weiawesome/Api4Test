@@ -31,7 +31,7 @@ def test_page():
     people=input['people']
     prefer=input['prefer']
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
-    num=random.randint(0, 0)
+    num=random.randint(0, 100)
     datas=[]
     for i in range(num):
         datas.append({'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']});
