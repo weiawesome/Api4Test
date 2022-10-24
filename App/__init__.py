@@ -73,6 +73,29 @@ def test_page():
     json_dump=json.dumps(retrundata)
     return json_dump
 
+@app.route('/test/',methods=['POST'])
+def book_page():
+    input = request.get_json()
+    StartDate=input['StartDate']
+    ArriveDate=input['ArriveDate']
+    Tickets=input['Tickets']
+    Order=input['Order']
+    StartTime=input['StartTime']
+    ArriveTime=input['ArriveTime']
+    BackStartTime=input['BackStartTime']
+    BackArriveTime=input['BackArriveTime']
+
+    #產生八碼編號
+    n=['0','1','2','3','4','5','6','7','8','9']
+    result=''
+    for i in range(8):
+        result+=random.choice(n)
+    data_set = {'Status':True,'Result':{result}}
+    json_dump = json.dumps(data_set)
+
+    return  json_dump
+
+
 @app.route('/time/',methods=['GET'])
 def time_page():
     t=datetime.datetime.today()
