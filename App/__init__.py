@@ -101,7 +101,7 @@ def book_page():
     result=''
     for i in range(8):
         result+=random.choice(n)
-    data_set = {'Status':'True','Result':{result}}
+    data_set = {'Status':'True','Result':result}
     json_dump = json.dumps(data_set)
 
     return  json_dump
