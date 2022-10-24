@@ -73,6 +73,14 @@ def test_page():
     json_dump=json.dumps(retrundata)
     return json_dump
 
+@app.route('/pay/',methods=['POST'])
+def pay_page():
+    input=request.get_json()
+    BookID=input['BookID']
+    data_set = {'Status': True}
+    json_dump = json.dumps(data_set)
+    return json_dump
+
 @app.route('/book/',methods=['POST'])
 def book_page():
     input = request.get_json()
