@@ -77,9 +77,12 @@ def test_page():
 def book_page():
     input = request.get_json()
     StartDate=input['StartDate']
-    ArriveDate=input['ArriveDate']
+    BackDate=input['BackDate']
     Tickets=input['Tickets']
     Order=input['Order']
+    BackOrder=input['BackOrder']
+    StartStation=input['StartStation']
+    ArriveStation=input['ArriveStation']
     StartTime=input['StartTime']
     ArriveTime=input['ArriveTime']
     BackStartTime=input['BackStartTime']
