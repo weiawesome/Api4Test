@@ -73,7 +73,7 @@ def test_page():
     json_dump=json.dumps(retrundata)
     return json_dump
 
-@app.route('/test/',methods=['POST'])
+@app.route('/book/',methods=['POST'])
 def book_page():
     input = request.get_json()
     StartDate=input['StartDate']
