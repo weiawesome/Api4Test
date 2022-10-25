@@ -65,8 +65,8 @@ def test_page():
     #          'stations': ['a', 'b', 'c']}
     #     ]}
     retrundata = {
-        'tickets':[1,1,1,1,1],
-        'price':[100,200,300,400,500],
+        'tickets':['1','1','1','1','1'],
+        'price':['100','200','300','400','500'],
         'data': datas,
         'backdata':backdatas
         }
