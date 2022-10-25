@@ -77,7 +77,7 @@ def test_page():
 def pay_page():
     input=request.get_json()
     BookID=input['BookID']
-    data_set = {'Status': True}
+    data_set = {'Status': 'True'}
     json_dump = json.dumps(data_set)
     return json_dump
 
