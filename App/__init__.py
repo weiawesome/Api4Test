@@ -81,6 +81,26 @@ def pay_page():
     json_dump = json.dumps(data_set)
     return json_dump
 
+@app.route('/use/',methods=['POST'])
+def use_page():
+    input=request.get_json()
+    BookID=input['BookID']
+    data_set = {'Status': 'True'}
+    json_dump = json.dumps(data_set)
+    return json_dump
+
+@app.route('/checkID/',methods=['POST'])
+def check_page():
+    input=request.get_json()
+    Name=input['Name']
+    Gender = input['Gender']
+    ID = input['ID']
+    Phone=input['Phone']
+    Email=input['Email']
+    data_set = {'Status': 'True'}
+    json_dump = json.dumps(data_set)
+    return json_dump
+
 @app.route('/book/',methods=['POST'])
 def book_page():
     input = request.get_json()
@@ -95,17 +115,27 @@ def book_page():
     ArriveTime=input['ArriveTime']
     BackStartTime=input['BackStartTime']
     BackArriveTime=input['BackArriveTime']
+    Type=input['Type']
+
+    Tickets=int(Tickets)
+    seat=[]
+    n = [ '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    t=['A','B','C','D','E']
+    v = ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12','13']
+    for i in range(Tickets):
+        s=''
+        s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
+        seat.append(s)
 
     #產生八碼編號
     n=['0','1','2','3','4','5','6','7','8','9']
     result=''
     for i in range(8):
         result+=random.choice(n)
-    data_set = {'Status':'True','Result':result}
+    data_set = {'Status':'True','Result':result,'seat':seat}
     json_dump = json.dumps(data_set)
 
     return  json_dump
-
 
 @app.route('/time/',methods=['GET'])
 def time_page():
