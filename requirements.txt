@@ -3,4 +3,3 @@ gunicorn
 datetime
 smtplib
 email
-pathlib
