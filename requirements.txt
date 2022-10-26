@@ -1,6 +1,6 @@
 Flask
 gunicorn
 datetime
-email
 smtplib
 pathlib
+email
