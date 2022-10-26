@@ -110,6 +110,7 @@ def check_page():
 def book_page():
     input = request.get_json()
     Name=input['Name']
+    Email=input['Email']
     StartDate=input['StartDate']
     BackDate=input['BackDate']
     Tickets=input['Tickets']
@@ -144,22 +145,23 @@ def book_page():
     content = MIMEMultipart()  # 建立MIMEMultipart物件
     content["subject"] = "訂票成功通知(wei-HSR)"  # 郵件標題
     content["from"] = "open891013@gmail.com"  # 寄件者
-    content["to"] = "open891013@gmail.com"  # 收件者
+    content["to"] = (Email)  # 收件者
+    print(Email)
 
     name = Name
     day = StartDate
     start = StartStation
     end = ArriveStation
     text = '親愛的顧客您好!\n\n' \
-           '{} 剛才系統已收到您預定於 {} 從{}前往{}的高鐵車票!\n' \
+           '{} 剛才系統已收到您\n預定於 {} \n從{}前往{}的高鐵車票!\n\n' \
            '目前已幫您完成訂票的手續\n' \
-           '您的訂位編號是 {}\n'\
+           '您的訂位編號是 {}\n\n'\
            'wei-wei-HSR公司祝您順心~\n\n'.format(name, day, start, end,result)
 
     content.attach(MIMEText(text))  # 郵件內容
     content.attach(MIMEImage(Path("i.jpg").read_bytes()))  # 郵件圖片內容
 
-    with smtplib.SMTP(host="smtp.gmail.com",port="587") as smtp:  # 設定SMTP伺服器
+    with smtplib.SMTP(host="smtp.gmail.com", port="587") as smtp:  # 設定SMTP伺服器
         try:
             smtp.ehlo()  # 驗證SMTP伺服器
             smtp.starttls()  # 建立加密傳輸
