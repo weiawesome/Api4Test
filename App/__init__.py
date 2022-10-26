@@ -159,7 +159,7 @@ def book_page():
     content.attach(MIMEText(text))  # 郵件內容
     content.attach(MIMEImage(Path("i.jpg").read_bytes()))  # 郵件圖片內容
 
-    with smtplib.SMTP(host="smtp.gmail.com") as smtp:  # 設定SMTP伺服器
+    with smtplib.SMTP(host="smtp.gmail.com",port="587") as smtp:  # 設定SMTP伺服器
         try:
             smtp.ehlo()  # 驗證SMTP伺服器
             smtp.starttls()  # 建立加密傳輸
