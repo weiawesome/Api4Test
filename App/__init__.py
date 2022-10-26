@@ -2,6 +2,11 @@ from flask import *
 import time,json
 import datetime
 import random
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+from email.mime.image import MIMEImage
+from pathlib import Path
 
 app=Flask(__name__)
 chiness_weeksate=['零','一','二','三','四','五','六','日']
