@@ -165,7 +165,7 @@ def book_page():
         try:
             smtp.ehlo()  # 驗證SMTP伺服器
             smtp.starttls()  # 建立加密傳輸
-            smtp.login("open891013@gmail.com", "lhczlnveqpbpwgng")  # 登入寄件者gmail
+            smtp.login("open891013@gmail.com", "frjweeccmqbpvviy")  # 登入寄件者gmail
             smtp.send_message(content)  # 寄送郵件
             print("成功傳送")
         except Exception as e:
