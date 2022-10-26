@@ -1,3 +1,8 @@
 Flask
 gunicorn
 datetime
+email.mime.multipart
+email.mime.text
+smtplib
+email.mime.image
+pathlib
