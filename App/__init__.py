@@ -30,6 +30,7 @@ def test_page():
     price=[]
     for i in (people.split(',')):
         price.append(int(i)*100))
+    
     num=random.randint(0, 100)
     datas=[]
     for i in range(num):
