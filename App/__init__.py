@@ -124,19 +124,17 @@ def book_page():
     BackArriveTime=input['BackArriveTime']
     Type=input['Type']
 
+    Tickets=int(Tickets)
     seat=[]
     n = [ '1', '2', '3', '4', '5', '6', '7', '8', '9']
     t=['A','B','C','D','E']
     v = ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12','13']
     print(Tickets)
-    for i in Tickets:
-        tmp=[]
-        for j in range(i):
-            s=''
-            s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
-            tmp.append(s)
-        seat.append(tmp)
-
+    for i in range(Tickets):
+        s=''
+        s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
+        seat.append(s)
+        
     #產生八碼編號
     n=['0','1','2','3','4','5','6','7','8','9']
     result=''
