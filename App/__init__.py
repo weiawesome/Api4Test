@@ -98,10 +98,13 @@ def book_page():
     t=['A','B','C','D','E']
     v = ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12','13']
     print(Tickets)
-    for i in range(Tickets):
-        s=''
-        s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
-        seat.append(s)
+    for i in range(Tickets.split(',')):
+        tmp=[]
+        for j in range(int(i)):
+            s=''
+            s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
+            tmp.append(s)
+        seat.append(tmp)
 
     #產生八碼編號
     n=['0','1','2','3','4','5','6','7','8','9']
