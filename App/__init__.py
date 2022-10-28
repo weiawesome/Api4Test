@@ -96,8 +96,7 @@ def book_page():
     n = [ '1', '2', '3', '4', '5', '6', '7', '8', '9']
     t=['A','B','C','D','E']
     v = ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12','13']
-    print(Tickets)
-    for i in range(Tickets.split(',')):
+    for i in Tickets.split(','):
         tmp=[]
         for j in range(int(i)):
             s=''
