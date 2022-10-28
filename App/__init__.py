@@ -44,33 +44,7 @@ def test_page():
     backdatas=[]
     for i in range(num):
         backdatas.append({'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']});
-    # retrundata = {
-    #     'data': [
-    #         {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '07:34', 'arrivetime': '09:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']},
-    #         {'gotime': '08:34', 'arrivetime': '10:40', 'totaltime': '2時 06分', 'orderof': '803',
-    #          'stations': ['a', 'b', 'c']}
-    #     ]}
     retrundata = {
-        'tickets':[1,1,1,1,1],
         'price':[100,200,300,400,500],
         'data': datas,
         'backdata':backdatas
