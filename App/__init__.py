@@ -29,7 +29,7 @@ def test_page():
     
     price=[]
     for i in range(people):
-        price.append(100*i)
+        price.append(100*int(i))
     num=random.randint(0, 100)
     datas=[]
     for i in range(num):
