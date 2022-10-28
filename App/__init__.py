@@ -112,8 +112,7 @@ def book_page():
                 s=''
                 s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
                 tmp.append(s)
-        backseat.append(tmp)
-    
+            backseat.append(tmp)
 
     #產生八碼編號
     n=['0','1','2','3','4','5','6','7','8','9']
