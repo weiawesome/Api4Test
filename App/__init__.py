@@ -141,7 +141,7 @@ def book_page():
     result=''
     for i in range(8):
         result+=random.choice(n)
-    data_set = {'Status':'True','Result':result,'seat':seat}
+    data_set = {'Status':'True','Result':result,'Seat':seat}
     json_dump = json.dumps(data_set)
 
     # content = MIMEMultipart()  # 建立MIMEMultipart物件
