@@ -105,7 +105,7 @@ def book_page():
             s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
             tmp.append(s)
         seat.append(tmp)
-    if(!(BackOrder=='None')):
+    if(BackOrder!='None'):
         for i in Tickets.split(','):
             tmp=[]
             for j in range(int(i)):
