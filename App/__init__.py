@@ -28,7 +28,8 @@ def test_page():
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
     
     price=[]
-   
+    for i in people.split(','):
+        price.append(100*int(i))
     num=random.randint(0, 100)
     datas=[]
     for i in range(num):
