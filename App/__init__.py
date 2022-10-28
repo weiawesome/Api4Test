@@ -48,7 +48,7 @@ def test_page():
     for i in range(num):
         backdatas.append({'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']});
     retrundata = {
-        'price':price,
+        'price':['1','2','3','4','5']
         'data': datas,
         'backdata':backdatas
         }
