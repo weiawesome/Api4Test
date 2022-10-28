@@ -26,6 +26,10 @@ def test_page():
     people=input['people']
     prefer=input['prefer']
     data=[start,end,oneway_return,gotime,returntime,traintype,people,prefer]
+    
+    price=[]
+    for i in range(people):
+        price.append(100*i)
     num=random.randint(0, 100)
     datas=[]
     for i in range(num):
@@ -35,7 +39,7 @@ def test_page():
     for i in range(num):
         backdatas.append({'gotime':'06:34','arrivetime':'08:40','totaltime':'2時 06分','orderof':'803','stations':['a','b','c']})
     retrundata = {
-        'price':[100,200,300,400,500],
+        'price':price,
         'data': datas,
         'backdata':backdatas
         }
