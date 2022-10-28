@@ -104,14 +104,6 @@ def book_page():
             s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
             tmp.append(s)
         seat.append(tmp)
-    if(!(BackOrder=='None')):
-        for i in Tickets.split(','):
-            tmp=[]
-            for j in range(int(i)):
-                s=''
-                s=random.choice(n)+'車'+'-'+random.choice(v)+random.choice(t)
-                tmp.append(s)
-        backseat.append(tmp)
     
 
     #產生八碼編號
@@ -119,7 +111,7 @@ def book_page():
     result=''
     for i in range(8):
         result+=random.choice(n)
-    data_set = {'Status':'True','Result':result,'Seat':seat,'BackSeat':backseat}
+    data_set = {'Status':'True','Result':result,'Seat':seat}
     json_dump = json.dumps(data_set)
 
     return  json_dump
