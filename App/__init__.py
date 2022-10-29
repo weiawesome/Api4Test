@@ -77,6 +77,7 @@ def check_page():
 
 @app.route('/book/',methods=['POST'])
 def book_page():
+    time.sleep(10)
     input = request.get_json()
     Name=input['Name']
     Email=input['Email']
