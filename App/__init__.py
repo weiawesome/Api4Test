@@ -19,15 +19,14 @@ def request_page():
 @app.route('/test/', methods=['POST'])
 def test_page():
     input = request.get_json()
-    start = input['start']
-    end = input['end']
-    oneway_return = input['oneway_return']
-    gotime = input['gotime']
-    returntime = input['returntime']
-    traintype = input['traintype']
-    people = input['people']
-    prefer = input['prefer']
-    data = [start, end, oneway_return, gotime, returntime, traintype, people, prefer]
+    start = input['StartStation']
+    end = input['ArriveStation']
+    oneway_return = input['OnewayReturn']
+    gotime = input['StartTime']
+    returntime = input['BackStartTime']
+    traintype = input['Type']
+    people = input['Tickets']
+    prefer = input['Prefer']
 
     price = []
     for i in (people.split(',')):
