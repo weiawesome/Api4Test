@@ -50,6 +50,35 @@ def test_page():
     json_dump = json.dumps(retrundata)
     return json_dump
 
+@app.route('/edit/', methods=['POST'])
+def edit_page():
+    input = request.get_json()
+    start = input['StartStation']
+    end = input['ArriveStation']
+    gotime = input['StartTime']
+    traintype = input['Type']
+    people = input['Tickets']
+    
+    Fees=[]
+    price = []
+    for i in (people.split(',')):
+        price.append(int(i) * 100)
+        Fees.append(int(i)*10)
+
+    num = random.randint(0, 100)
+    datas = []
+    for i in range(num):
+        datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
+                      'StationsBy': ['a', 'b', 'c']})
+    num = random.randint(0, 100)
+    retrundata = {
+        'Price': price,
+        'Datas': datas,
+        'Fees':Fees
+    }
+    json_dump = json.dumps(retrundata)
+    return json_dump
+
 @app.route('/timetable/', methods=['POST'])
 def timetable_page():
     input = request.get_json()
