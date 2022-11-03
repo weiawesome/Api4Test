@@ -35,17 +35,17 @@ def test_page():
     num = random.randint(0, 100)
     datas = []
     for i in range(num):
-        datas.append({'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
-                      'stations': ['a', 'b', 'c']});
+        datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
+                      'StationsBy': ['a', 'b', 'c']})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
-        backdatas.append({'gotime': '06:34', 'arrivetime': '08:40', 'totaltime': '2時 06分', 'orderof': '803',
-                          'stations': ['a', 'b', 'c']})
+        backdatas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
+                      'StationsBy': ['a', 'b', 'c']})
     retrundata = {
-        'price': price,
-        'data': datas,
-        'backdata': backdatas
+        'Price': price,
+        'Datas': datas,
+        'BackDatas': backdatas
     }
     json_dump = json.dumps(retrundata)
     return json_dump
