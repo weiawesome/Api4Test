@@ -69,7 +69,7 @@ def edit_page():
     num = random.randint(0, 100)
     datas = []
     for i in range(num):
-        datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
+        datas.append({'StartTime': '10:34', 'ArriveTime': '11:40', 'TotalTime': '1時 06分', 'Order': '616',
                       'StationsBy': ['a', 'b', 'c']})
     num = random.randint(0, 100)
     retrundata = {
@@ -91,7 +91,7 @@ def timetable_page():
     num = random.randint(0, 100)
     datas = []
     for i in range(num):
-        datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
+        datas.append({'StartTime': '08:14', 'ArriveTime': '09:20', 'TotalTime': '1時 06分', 'Order': '999',
                       'StationsBy': ['a', 'b', 'c']})
     retrundata = {
         'data': datas,
@@ -138,7 +138,13 @@ def findnow_page():
     StartTime = input['StartTime']
     Order = input['Order']
     ID = input['ID']
-    datas=[{'Code':'12345678','State':'False','DeadLine':'False'}]
+    num = random.randint(1, 5)
+    datas = []
+    for i in range(num):
+        datas.append({'Code':'12345678','State':'False','DeadLine':'False'})
+    num = random.randint(1, 5)
+    for i in range(num):
+        datas.append({'Code':'12345678','State':'True','DeadLine':'False'})
     data_set = {'Status': 'True','Datas':datas}
     json_dump = json.dumps(data_set)
     return json_dump
