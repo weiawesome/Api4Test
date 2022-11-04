@@ -70,7 +70,7 @@ def edit_page():
     datas = []
     for i in range(num):
         datas.append({'StartTime': '10:34', 'ArriveTime': '11:40', 'TotalTime': '1時 06分', 'Order': '616',
-                      'StationsBy': ['a', 'b', 'c']})
+                      'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
     num = random.randint(0, 100)
     retrundata = {
         'Price': price,
@@ -109,7 +109,7 @@ def getlose_page():
             'TotalTime':'2時0分',
             'Order':'987',
             'Seat': [['5車3A'], ['3車4A', '6車9A'], [], [], []],
-            'StationsBy': ['a', 'b', 'c']
+            'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']
         },
         'Tickets':[1,2,0,0,0],
         'Prices':[100,200,0,0,0],
@@ -129,7 +129,7 @@ def timetable_page():
     datas = []
     for i in range(num):
         datas.append({'StartTime': '08:14', 'ArriveTime': '09:20', 'TotalTime': '1時 06分', 'Order': '999',
-                      'StationsBy': ['a', 'b', 'c']})
+                      'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
     retrundata = {
         'data': datas,
     }
