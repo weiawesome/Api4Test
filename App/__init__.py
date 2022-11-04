@@ -130,6 +130,18 @@ def check_page():
     json_dump = json.dumps(data_set)
     return json_dump
 
+@app.route('/findnow/', methods=['POST'])
+def findnow_page():
+    input = request.get_json()
+    StartStation = input['StartStation']
+    ArriveStation = input['ArriveStation']
+    StartTime = input['StartTime']
+    Order = input['Order']
+    ID = input['ID']
+    datas=[{'Code':'12345678','State':'False','DeadLine':'False'}]
+    data_set = {'Status': 'True','Datas':datas}
+    json_dump = json.dumps(data_set)
+    return json_dump
 
 @app.route('/book/', methods=['POST'])
 def book_page():
