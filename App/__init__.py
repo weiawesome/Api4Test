@@ -88,10 +88,11 @@ def getlose_page():
     BookID=input['BookID']
 
     retrundata = {
+        'S
         'StartStation':'左營',
         'ArriveStation':'板橋',
         'OnewayReturn':'True',
-        'Type':'商務艙',
+        'Type':'商務車廂',
         'Start':{
             'Date':'2022/10/13',
             'StartTime':'10:10',
