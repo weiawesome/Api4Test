@@ -194,7 +194,7 @@ def editnow_page():
     BackStartTime = input['BackStartTime']
     BackArriveTime = input['BackArriveTime']
     Tickets=input['Tickets']
-    
+
     seat = []
     backseat = []
     n = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -217,6 +217,16 @@ def editnow_page():
             backseat.append(tmp)
 
     data_set = {'Status': 'True', 'Seat': seat, 'BackSeat': backseat}
+    json_dump = json.dumps(data_set)
+
+    return json_dump
+
+@app.route('/refundnow/', methods=['POST'])
+def refundnow_page():
+    input = request.get_json()
+    BookID=input['BookID']
+
+    data_set = {'Status': 'True'}
     json_dump = json.dumps(data_set)
 
     return json_dump
