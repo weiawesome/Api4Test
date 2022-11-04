@@ -81,6 +81,42 @@ def edit_page():
     return json_dump
 
 
+@app.route('/getlose/', methods=['POST'])
+def getlose_page():
+    input = request.get_json()
+    ID=input['ID']
+    BookID=input['BookID']
+
+    retrundata = {
+        'StartStation':'左營',
+        'ArriveStation':'板橋',
+        'OnewayReturn':'True',
+        'Type':'商務艙',
+        'Start':{
+            'Date':'2022/10/13',
+            'StartTime':'10:10',
+            'ArriveTime':'12:00',
+            'TotalTime':'1時5分',
+            'Order':'987',
+            'Seat':[['5車3A'],['3車4A','6車9A'],[],[],[]],
+            'StationsBy':['a','b','c']
+        },
+        'Arrive':{
+            'Date': '2022/10/13',
+            'StartTime':'13:00',
+            'ArriveTime':'15:00',
+            'TotalTime':'2時0分',
+            'Order':'987',
+            'Seat': [['5車3A'], ['3車4A', '6車9A'], [], [], []],
+            'StationsBy': ['a', 'b', 'c']
+        },
+        'Tickets':[1,2,0,0,0],
+        'Prices':[100,200,0,0,0],
+    }
+
+    json_dump = json.dumps(retrundata)
+    return json_dump
+
 @app.route('/timetable/', methods=['POST'])
 def timetable_page():
     input = request.get_json()
