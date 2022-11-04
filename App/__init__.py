@@ -36,12 +36,12 @@ def test_page():
     datas = []
     for i in range(num):
         datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                      'StationsBy': ['a', 'b', 'c']})
+                      'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
         backdatas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                          'StationsBy': ['a', 'b', 'c']})
+                          'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
     retrundata = {
         'Price': price,
         'Datas': datas,
