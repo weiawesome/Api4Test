@@ -41,7 +41,7 @@ def test_page():
     backdatas = []
     for i in range(num):
         backdatas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                      'StationsBy': ['a', 'b', 'c']})
+                          'StationsBy': ['a', 'b', 'c']})
     retrundata = {
         'Price': price,
         'Datas': datas,
@@ -49,6 +49,7 @@ def test_page():
     }
     json_dump = json.dumps(retrundata)
     return json_dump
+
 
 @app.route('/edit/', methods=['POST'])
 def edit_page():
@@ -58,12 +59,12 @@ def edit_page():
     gotime = input['StartTime']
     traintype = input['Type']
     people = input['Tickets']
-    
-    Fees=[]
+
+    Fees = []
     price = []
     for i in (people.split(',')):
         price.append(int(i) * 100)
-        Fees.append(int(i)*10)
+        Fees.append(int(i) * 10)
 
     num = random.randint(0, 100)
     datas = []
@@ -74,10 +75,11 @@ def edit_page():
     retrundata = {
         'Price': price,
         'Datas': datas,
-        'Fees':Fees
+        'Fees': Fees
     }
     json_dump = json.dumps(retrundata)
     return json_dump
+
 
 @app.route('/timetable/', methods=['POST'])
 def timetable_page():
@@ -178,6 +180,46 @@ def book_page():
 
     return json_dump
 
+
+@app.route('/editnow/', methods=['POST'])
+def editnow_page():
+    input = request.get_json()
+    BookID=input['BookID']
+    StartDate = input['StartDate']
+    BackDate = input['BackDate']
+    Order = input['Order']
+    BackOrder = input['BackOrder']
+    StartTime = input['StartTime']
+    ArriveTime = input['ArriveTime']
+    BackStartTime = input['BackStartTime']
+    BackArriveTime = input['BackArriveTime']
+    Tickets=input['Tickets']
+    
+    seat = []
+    backseat = []
+    n = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    t = ['A', 'B', 'C', 'D', 'E']
+    v = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
+    for i in Tickets.split(','):
+        tmp = []
+        for j in range(int(i)):
+            s = ''
+            s = random.choice(n) + '車' + '-' + random.choice(v) + random.choice(t)
+            tmp.append(s)
+        seat.append(tmp)
+    if (BackOrder != 'None'):
+        for i in Tickets.split(','):
+            tmp = []
+            for j in range(int(i)):
+                s = ''
+                s = random.choice(n) + '車' + '-' + random.choice(v) + random.choice(t)
+                tmp.append(s)
+            backseat.append(tmp)
+
+    data_set = {'Status': 'True', 'Seat': seat, 'BackSeat': backseat}
+    json_dump = json.dumps(data_set)
+
+    return json_dump
 
 @app.route('/time/', methods=['GET'])
 def time_page():
