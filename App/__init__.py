@@ -35,7 +35,7 @@ def test_page():
     prefer = input['Prefer']
     print(oneway_return)
     state='False'
-    if(onway_return=='true'):
+    if(oneway_return=='true'):
         state='True'
     j = {
         "CommandType": "GetTrains",
