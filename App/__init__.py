@@ -74,7 +74,7 @@ def test_page():
         datas.append({'StartTime': a['Datas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
                       'StationsBy': a['Datas']['StationsBy']})
     for i in range(1):
-        datas.append(
+        backdatas.append(
             {'StartTime': a['BackDatas']['StartTime'], 'ArriveTime': a['BackDatas']['ArriveTime'], 'TotalTime': '2時 06分',
              'Order': a['BackDatas']['Order'],
              'StationsBy': a['BackDatas']['StationsBy']})
