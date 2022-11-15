@@ -82,6 +82,7 @@ def test_page():
     a = proc(a)
     print(a)
     c = proc('"' + a[1][1] + '"', d=0)
+    print(c)
     datas = []
     print(c[3][1])
     c[3][1]=(c[3][1]).split(',')
