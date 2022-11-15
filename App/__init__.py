@@ -81,6 +81,8 @@ def test_page():
     a = indata.decode('unicode_escape')[2:]
     a = proc(a)
     print(a)
+    for i in a[1][1]:
+        print(i)
     c = proc('"' + a[1][1] + '"', d=0)
     print(c)
     datas = []
