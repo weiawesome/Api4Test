@@ -35,7 +35,7 @@ def test_page():
     prefer = input['Prefer']
     print(oneway_return)
     state='False'
-    if(oneway_return=='true'):
+    if(oneway_return!='true'):
         state='True'
     j = {
         "CommandType": "GetTrains",
@@ -69,11 +69,11 @@ def test_page():
     datas=[]
     backdatas=[]
     for i in range(1):
-        datas.append({'StartTime': a['Datas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
+        datas.append({'StartTime': a['Datas']['StartTime'][:5], 'ArriveTime': a['Datas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
                       'StationsBy': a['Datas']['StationsBy']})
     for i in range(1):
-        backdatas.append({'StartTime': a['BackDatas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
-                      'StationsBy': a['Datas']['StationsBy']})
+        backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
+                      'StationsBy': a['BackDatas']['StationsBy']})
     retrundata = {
         'Price': (a['TicketPrice']).split(','),
         'Datas': datas,
