@@ -56,7 +56,7 @@ def test_page():
         "CommandType": "GetTrains",
         "StartStation": start,
         "ArriveStation": end,
-        "OneWayReturn": 'False',
+        "OneWayReturn": 'True',
         "StartDate": gotime[0:10],
         "StartTime": gotime[16:],
         "BackStartDate": returntime[0:10],
