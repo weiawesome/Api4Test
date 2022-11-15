@@ -82,6 +82,9 @@ def test_page():
     a = proc(a)
     print(a)
     datas = []
+    for i in range(1):
+        datas.append({'StartTime': c[4][1], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
+                      'StationsBy': (c[3][1]).split(',')})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
