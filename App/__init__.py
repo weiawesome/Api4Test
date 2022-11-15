@@ -35,6 +35,9 @@ def request_page():
     return json_dump
 
 
+import json
+
+
 @app.route('/test/', methods=['POST'])
 def test_page():
     HOST = '140.136.151.128'
@@ -79,49 +82,19 @@ def test_page():
     indata = s.recv(1024)
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
-    print(a)
-    a = proc(a)
-    print(a)
-    ord,a[1][1]=(a[1][1][0:a[1][1].find(',')]).split(':'),a[1][1][a[1][1].find(',')+1:]
-    print(ord[1].strip()[1:-1])
-    atime,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
-    print(atime[atime.find(':')+1:].strip()[1:-4])
-    sco,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
-    sb,a[1][1]=(a[1][1][0:a[1][1].find('0\'')]),a[1][1][a[1][1].find(',')+1:]
-    sb=(sb[sb.find(':')+1:].strip()[1:-1]).split(',')
-    for i in range(len(sb)):
-        if(sb[i]=='00:00:00'):
-            sb[i]=''
-        else:
-            sb[i]=sb[i][:5]
-    print(sb)
-    st,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
-    print(st[:5])
+    a=json.loads(a)
     datas=[]
     backdatas=[]
     for i in range(1):
-        datas.append({'StartTime': st[:5], 'ArriveTime': atime[atime.find(':')+1:].strip()[1:-4], 'TotalTime': '2時 06分', 'Order': (ord[1].strip()[1:-1]),
-                      'StationsBy': sb[:12]})
-    ord,a[2][1]=(a[2][1][0:a[2][1].find(',')]).split(':'),a[2][1][a[2][1].find(',')+1:]
-    print(ord[1].strip()[1:-1])
-    atime,a[2][1]=(a[2][1][0:a[2][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
-    print(atime[atime.find(':')+1:].strip()[1:-4])
-    sco,a[2][1]=(a[2][1][0:a[1][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
-    sb,a[2][1]=(a[2][1][0:a[1][1].find('0\'')]),a[2][1][a[2][1].find(',')+1:]
-    sb=(sb[sb.find(':')+1:].strip()[1:-1]).split(',')
-    for i in range(len(sb)):
-        if(sb[i]=='00:00:00'):
-            sb[i]=''
-        else:
-            sb[i]=sb[i][:5]
-    print(sb)
-    st,a[2][1]=(a[2][1][0:a[2][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
-    print(st[:5])
+        datas.append({'StartTime': a['Datas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
+                      'StationsBy': a['Datas']['StationsBy']})
     for i in range(1):
-        backdatas.append({'StartTime': st[:5], 'ArriveTime': atime[atime.find(':')+1:].strip()[1:-4], 'TotalTime': '2時 06分', 'Order': (ord[1].strip()[1:-1]),
-                      'StationsBy': sb[:12]})
+        datas.append(
+            {'StartTime': a['BackDatas']['StartTime'], 'ArriveTime': a['BackDatas']['ArriveTime'], 'TotalTime': '2時 06分',
+             'Order': a['BackDatas']['Order'],
+             'StationsBy': a['BackDatas']['StationsBy']})
     retrundata = {
-        'Price': (a[3][1]).split(','),
+        'Price': (a['TicketPrice']).split(','),
         'Datas': datas,
         'BackDatas': backdatas
     }
