@@ -2,6 +2,25 @@ from flask import *
 import time, json
 import datetime
 import random
+import json
+import socket
+import struct
+def proc(a,d=-1):
+    b=[]
+    r=1
+    index=1
+    for i in range(len(a)):
+        if (a[i]=='{'):
+            d+=1
+        elif (a[i]=='}'):
+            d-=1
+        elif (a[i]=="'"):
+            r*=-1
+        if((r==1 and d==0 and a[i]==',') or i==len(a)-1):
+            c=a[index:i]
+            b.append([c[0:c.find(':')].strip()[1:-1],c[c.find(':')+1:].strip()[1:-1]])
+            index=i+1
+    return b
 
 app = Flask(__name__)
 chiness_weeksate = ['零', '一', '二', '三', '四', '五', '六', '日']
@@ -18,6 +37,11 @@ def request_page():
 
 @app.route('/test/', methods=['POST'])
 def test_page():
+    HOST = '140.136.151.128'
+    PORT = 10001
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
     input = request.get_json()
     start = input['StartStation']
     end = input['ArriveStation']
@@ -28,22 +52,49 @@ def test_page():
     people = input['Tickets']
     prefer = input['Prefer']
 
-    price = []
-    for i in (people.split(',')):
-        price.append(int(i) * 100)
+    j = {
+        "CommandType": "GetTrains",
+        "StartStation": start,
+        "ArriveStation": end,
+        "OneWayReturn": oneway_return,
+        "StartDate": gotime[0:10],
+        "StartTime": gotime[16:],
+        "BackStartDate": returntime[0:10],
+        "BackStartTime": returntime[16:],
+        "Type": traintype,
+        "Prefer": prefer
+    }
+    HOST = '140.136.151.128'
+    PORT = 10001
 
-    num = random.randint(0, 100)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    outdata = json.dumps(j)
+    print(outdata)
+    data = bytearray(outdata, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    print('has do it')
+    indata = s.recv(1024)
+    print(type(indata))
+    a = indata.decode('unicode_escape')[2:]
+    a = proc(a)
+    c = proc('"' + a[1][1] + '"', d=0)
+    e=proc('"' + a[2][1] + '"', d=0)
+
     datas = []
-    for i in range(num):
-        datas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                      'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
+    for i in range(1):
+        datas.append({'StartTime': c[4][1], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
+                      'StationsBy': (c[3][1]).split(',')})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
         backdatas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                          'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
+                          'StationsBy': ['21:30', '21:41', '21:50', '22:05', '22:17', '', '22:43', '', '', '23:09',
+                                         '23:28', '23:40']})
     retrundata = {
-        'Price': price,
+        'Price': (a[3][1]).split(','),
         'Datas': datas,
         'BackDatas': backdatas
     }
