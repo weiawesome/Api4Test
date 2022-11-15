@@ -51,7 +51,7 @@ def test_page():
     traintype = input['Type']
     people = input['Tickets']
     prefer = input['Prefer']
-
+    print(oneway_return)
     j = {
         "CommandType": "GetTrains",
         "StartStation": start,
