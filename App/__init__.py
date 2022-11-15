@@ -96,6 +96,7 @@ def test_page():
         'BackDatas': backdatas
     }
     json_dump = json.dumps(retrundata)
+    s.close()
     return json_dump
 
 
