@@ -98,7 +98,7 @@ def test_page():
     print(st[:5])
     datas=[]
     for i in range(1):
-        datas.append({'StartTime': st, 'ArriveTime': atime, 'TotalTime': '2時 06分', 'Order': ord,
+        datas.append({'StartTime': st[:5], 'ArriveTime': atime[atime.find(':')+1:].strip()[1:-4], 'TotalTime': '2時 06分', 'Order': (ord[1].strip()[1:-1]),
                       'StationsBy': sb})
     num = random.randint(0, 100)
     backdatas = []
