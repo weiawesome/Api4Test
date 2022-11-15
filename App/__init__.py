@@ -83,6 +83,7 @@ def test_page():
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
     a=json.loads(a)
+    print(a)
     datas=[]
     backdatas=[]
     for i in range(1):
