@@ -96,7 +96,7 @@ def test_page():
     print(sb)
     st,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
     print(st[:5])
-
+    datas=[]
     for i in range(1):
         datas.append({'StartTime': st, 'ArriveTime': atime, 'TotalTime': '2時 06分', 'Order': ord,
                       'StationsBy': sb})
