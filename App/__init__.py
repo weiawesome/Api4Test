@@ -81,6 +81,7 @@ def test_page():
     a = indata.decode('unicode_escape')[2:]
     a = proc(a)
     print(a)
+    c = proc('"' + a[1][1] + '"', d=0)
     datas = []
     for i in range(1):
         datas.append({'StartTime': c[4][1], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
