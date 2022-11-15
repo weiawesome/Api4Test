@@ -86,7 +86,7 @@ def test_page():
     atime,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
     print(atime[atime.find(':')+1:].strip()[1:-4])
     sco,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
-    sb,a[1][1]=(a[1][1][0:a[1][1].find(', \'S')]),a[1][1][a[1][1].find(',')+1:]
+    sb,a[1][1]=(a[1][1][0:a[1][1].find('S')]),a[1][1][a[1][1].find(',')+1:]
     sb=(sb[sb.find(':')+1:].strip()[1:-1]).split(',')
     for i in range(len(sb)):
         if(sb[i]=='00:00:00'):
