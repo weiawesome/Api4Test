@@ -87,8 +87,11 @@ def test_page():
         for i in range(1):
             backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
                           'StationsBy': sb})
+    price=(a['TicketPrice']).split(',')
+    for i in range(len(price)):
+        price[i]=int(price[i])
     retrundata = {
-        'Price': (a['TicketPrice']).split(','),
+        'Price': price,
         'Datas': datas,
         'BackDatas': backdatas
     }
