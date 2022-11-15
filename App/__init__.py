@@ -212,8 +212,34 @@ def check_page():
     ID = input['ID']
     Phone = input['Phone']
     Email = input['Email']
-    data_set = {'Status': 'True'}
+    HOST = '140.136.151.128'
+    PORT = 10001
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    j ={
+      "CommandType": "CheckID",
+      "ID": ID,
+      "Phone": Phone,
+      "Email": Email
+    }
+
+
+    outdata = json.dumps(j)
+    print(outdata)
+    data = bytearray(outdata, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    print('has do it')
+    indata = s.recv(1024)
+    print(type(indata))
+    a=indata.decode('unicode_escape')[2:]
+    a=json.loads(a)
+    print(a)
+    data_set = {'Status': a['Status']}
     json_dump = json.dumps(data_set)
+    s.close()
     return json_dump
 
 @app.route('/findnow/', methods=['POST'])
