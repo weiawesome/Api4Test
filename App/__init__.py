@@ -79,6 +79,7 @@ def test_page():
     indata = s.recv(1024)
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
+    print(a)
     a = proc(a)
     print(a)
     ord,a[1][1]=(a[1][1][0:a[1][1].find(',')]).split(':'),a[1][1][a[1][1].find(',')+1:]
