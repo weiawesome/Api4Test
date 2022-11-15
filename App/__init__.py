@@ -66,14 +66,21 @@ def test_page():
     a = indata.decode('unicode_escape')[2:]
     a=json.loads(a)
     print(a)
+    sb=a['Datas']['StationsBy'].split(',')
+    for i in range(len(sb)):
+        if(sb[i]=='00:00:00'):
+            sb[i]=''
+        else:
+            sb[i]=sb[i][:5]
     datas=[]
     backdatas=[]
     for i in range(1):
         datas.append({'StartTime': a['Datas']['StartTime'][:5], 'ArriveTime': a['Datas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
-                      'StationsBy': a['Datas']['StationsBy']})
-    for i in range(1):
-        backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
-                      'StationsBy': a['BackDatas']['StationsBy']})
+                      'StationsBy': sb})
+    if(state=='False'):
+        for i in range(1):
+            backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
+                          'StationsBy': a['BackDatas']['StationsBy']})
     retrundata = {
         'Price': (a['TicketPrice']).split(','),
         'Datas': datas,
