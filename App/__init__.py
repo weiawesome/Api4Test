@@ -78,9 +78,15 @@ def test_page():
         datas.append({'StartTime': a['Datas']['StartTime'][:5], 'ArriveTime': a['Datas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
                       'StationsBy': sb})
     if(state=='False'):
+        sb=a['Datas']['StationsBy'].split(',')
+        for i in range(len(sb)):
+            if(sb[i]=='00:00:00'):
+                sb[i]=''
+            else:
+                sb[i]=sb[i][:5]
         for i in range(1):
             backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
-                          'StationsBy': a['BackDatas']['StationsBy']})
+                          'StationsBy': sb})
     retrundata = {
         'Price': (a['TicketPrice']).split(','),
         'Datas': datas,
