@@ -5,22 +5,6 @@ import random
 import json
 import socket
 import struct
-def proc(a,d=-1):
-    b=[]
-    r=1
-    index=1
-    for i in range(len(a)):
-        if (a[i]=='{'):
-            d+=1
-        elif (a[i]=='}'):
-            d-=1
-        elif (a[i]=="'"):
-            r*=-1
-        if((r==1 and d==0 and a[i]==',') or i==len(a)-1):
-            c=a[index:i]
-            b.append([c[0:c.find(':')].strip()[1:-1],c[c.find(':')+1:].strip()[1:-1]])
-            index=i+1
-    return b
 
 app = Flask(__name__)
 chiness_weeksate = ['零', '一', '二', '三', '四', '五', '六', '日']
