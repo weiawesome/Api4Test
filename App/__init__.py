@@ -81,17 +81,25 @@ def test_page():
     a = indata.decode('unicode_escape')[2:]
     a = proc(a)
     print(a)
-    for i in a[1][1]:
-        print(i)
-    c = proc('"' + a[1][1] + '"', d=0)
-    print(c)
-    datas = []
-    print(c[3][1])
-    c[3][1]=(c[3][1]).split(',')
-    print(c[3][1])
+    ord,a[1][1]=(a[1][1][0:a[1][1].find(',')]).split(':'),a[1][1][a[1][1].find(',')+1:]
+    print(ord[1].strip()[1:-1])
+    atime,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
+    print(atime[atime.find(':')+1:].strip()[1:-4])
+    sco,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
+    sb,a[1][1]=(a[1][1][0:a[1][1].find(', \'S')]),a[1][1][a[1][1].find(',')+1:]
+    sb=(sb[sb.find(':')+1:].strip()[1:-1]).split(',')
+    for i in range(len(sb)):
+        if(sb[i]=='00:00:00'):
+            sb[i]=''
+        else:
+            sb[i]=sb[i][:5]
+    print(sb)
+    st,a[1][1]=(a[1][1][0:a[1][1].find(',')]),a[1][1][a[1][1].find(',')+1:]
+    print(st[:5])
+
     for i in range(1):
-        datas.append({'StartTime': c[4][1][:5], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
-                      'StationsBy': c[3][1]})
+        datas.append({'StartTime': st, 'ArriveTime': atime, 'TotalTime': '2時 06分', 'Order': ord,
+                      'StationsBy': sb})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
