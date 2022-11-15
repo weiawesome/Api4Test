@@ -100,12 +100,24 @@ def test_page():
     for i in range(1):
         datas.append({'StartTime': st[:5], 'ArriveTime': atime[atime.find(':')+1:].strip()[1:-4], 'TotalTime': '2時 06分', 'Order': (ord[1].strip()[1:-1]),
                       'StationsBy': sb[:12]})
-    num = random.randint(0, 100)
-    backdatas = []
-    for i in range(num):
-        backdatas.append({'StartTime': '06:34', 'ArriveTime': '08:40', 'TotalTime': '2時 06分', 'Order': '803',
-                          'StationsBy': ['21:30', '21:41', '21:50', '22:05', '22:17', '', '22:43', '', '', '23:09',
-                                         '23:28', '23:40']})
+    ord,a[2][1]=(a[2][1][0:a[2][1].find(',')]).split(':'),a[2][1][a[2][1].find(',')+1:]
+    print(ord[1].strip()[1:-1])
+    atime,a[2][1]=(a[2][1][0:a[2][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
+    print(atime[atime.find(':')+1:].strip()[1:-4])
+    sco,a[2][1]=(a[2][1][0:a[1][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
+    sb,a[2][1]=(a[2][1][0:a[1][1].find('0\'')]),a[2][1][a[2][1].find(',')+1:]
+    sb=(sb[sb.find(':')+1:].strip()[1:-1]).split(',')
+    for i in range(len(sb)):
+        if(sb[i]=='00:00:00'):
+            sb[i]=''
+        else:
+            sb[i]=sb[i][:5]
+    print(sb)
+    st,a[2][1]=(a[2][1][0:a[2][1].find(',')]),a[2][1][a[2][1].find(',')+1:]
+    print(st[:5])
+    for i in range(1):
+        backdatas.append({'StartTime': st[:5], 'ArriveTime': atime[atime.find(':')+1:].strip()[1:-4], 'TotalTime': '2時 06分', 'Order': (ord[1].strip()[1:-1]),
+                      'StationsBy': sb[:12]})
     retrundata = {
         'Price': (a[3][1]).split(','),
         'Datas': datas,
