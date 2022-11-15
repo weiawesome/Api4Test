@@ -80,13 +80,8 @@ def test_page():
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
     a = proc(a)
-    c = proc('"' + a[1][1] + '"', d=0)
-    e=proc('"' + a[2][1] + '"', d=0)
-
+    print(c)
     datas = []
-    for i in range(1):
-        datas.append({'StartTime': c[4][1], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
-                      'StationsBy': (c[3][1]).split(',')})
     num = random.randint(0, 100)
     backdatas = []
     for i in range(num):
