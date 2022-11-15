@@ -86,6 +86,7 @@ def test_page():
     c[3][1]=(c[3][1]).split(',')
     for i in range(len(c[3][1])):
         c[3][1][i]=c[3][1][i][:5]
+    print(c[3][1])
     for i in range(1):
         datas.append({'StartTime': c[4][1][:5], 'ArriveTime': c[1][1][:5], 'TotalTime': '2時 06分', 'Order': c[0][1],
                       'StationsBy': c[3][1]})
