@@ -80,7 +80,7 @@ def test_page():
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
     a = proc(a)
-    print(c)
+    print(a)
     datas = []
     num = random.randint(0, 100)
     backdatas = []
