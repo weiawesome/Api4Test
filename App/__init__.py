@@ -24,11 +24,6 @@ import json
 
 @app.route('/test/', methods=['POST'])
 def test_page():
-    HOST = '140.136.151.128'
-    PORT = 10001
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
     input = request.get_json()
     start = input['StartStation']
     end = input['ArriveStation']
@@ -39,11 +34,14 @@ def test_page():
     people = input['Tickets']
     prefer = input['Prefer']
     print(oneway_return)
+    state='False'
+    if(onway_return=='true'):
+        state='True'
     j = {
         "CommandType": "GetTrains",
         "StartStation": start,
         "ArriveStation": end,
-        "OneWayReturn": 'True',
+        "OneWayReturn": state,
         "StartDate": gotime[0:10],
         "StartTime": gotime[16:],
         "BackStartDate": returntime[0:10],
@@ -74,7 +72,7 @@ def test_page():
         datas.append({'StartTime': a['Datas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
                       'StationsBy': a['Datas']['StationsBy']})
     for i in range(1):
-        backdatas.append({'StartTime': a['Datas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
+        backdatas.append({'StartTime': a['BackDatas']['StartTime'], 'ArriveTime': a['Datas']['ArriveTime'], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
                       'StationsBy': a['Datas']['StationsBy']})
     retrundata = {
         'Price': (a['TicketPrice']).split(','),
