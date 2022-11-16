@@ -43,9 +43,9 @@ def test_page():
         "ArriveStation": end,
         "OneWayReturn": state,
         "StartDate": gotime[0:10],
-        "StartTime": gotime[16:],
+        "StartTime": gotime[15:],
         "BackStartDate": returntime[0:10],
-        "BackStartTime": returntime[16:],
+        "BackStartTime": returntime[15:],
         "Type": traintype,
         "Prefer": prefer
     }
