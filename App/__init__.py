@@ -67,30 +67,29 @@ def test_page():
     a=json.loads(a)
     print(a)
 
-    sb=a['Datas']['StationsBy'].split(',')
-    for i in range(len(sb)):
-        if(sb[i]=='00:00:00'):
-            sb[i]=''
-        else:
-            sb[i]=sb[i][:5]
-
     def cmp(item):
         return int(item["StartTime"][:2]) * 60 + int(item["StartTime"][3:5]) * 1
     sorted(a['Datas'],key=cmp)
     datas=[]
     backdatas=[]
     for i in a['Datas']:
+        sb = i['StationsBy'].split(',')
+        for j in range(len(sb)):
+            if (sb[j] == '00:00:00'):
+                sb[j] = ''
+            else:
+                sb[j] = sb[j][:5]
         datas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                       'StationsBy': sb})
     if(state=='False'):
-        sb=a['BackDatas']['StationsBy'].split(',')
-        for i in range(len(sb)):
-            if(sb[i]=='00:00:00'):
-                sb[i]=''
-            else:
-                sb[i]=sb[i][:5]
         sorted(a['BackDatas'], key=cmp)
         for i in a['BackDatas']:
+            sb = i['StationsBy'].split(',')
+            for j in range(len(sb)):
+                if (sb[j] == '00:00:00'):
+                    sb[j] = ''
+                else:
+                    sb[j] = sb[j][:5]
             backdatas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                           'StationsBy': sb})
     price=(a['TicketPrice']).split(',')
