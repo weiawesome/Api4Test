@@ -318,6 +318,7 @@ def findnow_page():
 def book_page():
     input = request.get_json()
     Name = input['Name']
+    ID=input['ID']
     Email = input['Email']
     StartDate = input['StartDate']
     BackDate = input['BackDate']
@@ -331,34 +332,57 @@ def book_page():
     BackStartTime = input['BackStartTime']
     BackArriveTime = input['BackArriveTime']
     Type = input['Type']
+    Prefer=input['Prefer']
 
-    seat = []
-    backseat = []
-    n = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-    t = ['A', 'B', 'C', 'D', 'E']
-    v = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
-    for i in Tickets.split(','):
-        tmp = []
-        for j in range(int(i)):
-            s = ''
-            s = random.choice(n) + '車' + '-' + random.choice(v) + random.choice(t)
-            tmp.append(s)
-        seat.append(tmp)
+    state = 'False'
     if (BackOrder != 'None'):
-        for i in Tickets.split(','):
-            tmp = []
-            for j in range(int(i)):
-                s = ''
-                s = random.choice(n) + '車' + '-' + random.choice(v) + random.choice(t)
-                tmp.append(s)
-            backseat.append(tmp)
+        state = 'True'
 
-    # 產生八碼編號
-    n = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    result = ''
-    for i in range(8):
-        result += random.choice(n)
-    data_set = {'Status': 'True', 'Result': result, 'Seat': seat, 'BackSeat': backseat}
+    HOST = '140.136.151.128'
+    PORT = 10001
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    j = {
+        "CommandType": "Book",
+        "ID": ID,
+        "OneWayReturn": state,
+        "StartDate": StartDate,
+        "BackDate": BackDate,
+        "StartStation": StartStation,
+        "ArriveStation": ArriveStation,
+        "Tickets": Tickets,
+        "Order": Order,
+        "BackOrder": BackOrder,
+        "Type": Type,
+        "Prefer": Prefer
+    }
+
+    outdata = json.dumps(j)
+    print(outdata)
+    data = bytearray(outdata, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    print('has do it')
+    indata = s.recv(1024)
+    print(type(indata))
+    a = indata.decode('unicode_escape')[2:-1]
+    a = json.loads(a)
+    print(a)
+
+    backseat=[]
+    seat=a['GoSeat'].split(',')
+    for i in range(len(seat)):
+        seat[i]=seat[i].replace('cabin','車')
+    if (BackOrder != 'None'):
+        backseat = a['BackSeat'].split(',')
+        for i in range(len(backseat)):
+            backseat[i] = backseat[i].replace('cabin', '車')
+
+
+
+    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat': seat, 'BackSeat': backseat}
     json_dump = json.dumps(data_set)
 
     return json_dump
