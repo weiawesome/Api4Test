@@ -185,11 +185,53 @@ def timetable_page():
     ArriveStation = input['ArriveStation']
     StartTime = input['StartTime']
 
-    num = random.randint(0, 100)
+    j = {
+        "CommandType": "GetTrains",
+        "StartStation": StartStation,
+        "ArriveStation": ArriveStation,
+        "OneWayReturn": 'True',
+        "StartDate": StartTime[0:10],
+        "StartTime": StartTime[15:],
+        "BackStartDate": StartTime[0:10],
+        "BackStartTime": StartTime[15:],
+        "Type": '標準車廂',
+        "Prefer": '無偏好'
+    }
+    HOST = '140.136.151.128'
+    PORT = 10001
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    outdata = json.dumps(j)
+    print(outdata)
+    data = bytearray(outdata, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    indata = s.recv(1024)
+    while (indata.decode('unicode_escape')[-1] != '#'):
+        a = s.recv(1024)
+        indata += a
+    print(indata)
+    a = indata.decode('unicode_escape')[2:-1]
+    a = json.loads(a)
+    print(a)
+
+    def cmp(item):
+        return int(item["StartTime"][:2]) * 60 + int(item["StartTime"][3:5]) * 1
+
+    sorted(a['Datas'], key=cmp)
     datas = []
-    for i in range(num):
-        datas.append({'StartTime': '08:14', 'ArriveTime': '09:20', 'TotalTime': '1時 06分', 'Order': '999',
-                      'StationsBy': ['21:30','21:41','21:50','22:05','22:17','','22:43','','','23:09','23:28','23:40']})
+    for i in a['Datas']:
+        sb = i['StationsBy'].split(',')
+        for j in range(len(sb)):
+            if (sb[j] == '00:00:00'):
+                sb[j] = ''
+            else:
+                sb[j] = sb[j][:5]
+        datas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分',
+                      'Order': i['Order'],
+                      'StationsBy': sb})
     retrundata = {
         'data': datas,
     }
