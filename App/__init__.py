@@ -66,30 +66,36 @@ def test_page():
     a = indata.decode('unicode_escape')[2:]
     a=json.loads(a)
     print(a)
+
     sb=a['Datas']['StationsBy'].split(',')
     for i in range(len(sb)):
         if(sb[i]=='00:00:00'):
             sb[i]=''
         else:
             sb[i]=sb[i][:5]
+
+    def cmp(item):
+        return int(item["StartTime"][:2]) * 60 + int(item["StartTime"][3:5]) * 1
+    sorted(a['Datas'],key=cmp)
     datas=[]
     backdatas=[]
-    for i in range(1):
-        datas.append({'StartTime': a['Datas']['StartTime'][:5], 'ArriveTime': a['Datas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['Datas']['Order'],
+    for i in a['Datas']:
+        datas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                       'StationsBy': sb})
     if(state=='False'):
-        sb=a['Datas']['StationsBy'].split(',')
+        sb=a['BackDatas']['StationsBy'].split(',')
         for i in range(len(sb)):
             if(sb[i]=='00:00:00'):
                 sb[i]=''
             else:
                 sb[i]=sb[i][:5]
-        for i in range(1):
-            backdatas.append({'StartTime': a['BackDatas']['StartTime'][:5], 'ArriveTime': a['BackDatas']['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': a['BackDatas']['Order'],
+        sorted(a['BackDatas'], key=cmp)
+        for i in a['BackDatas']:
+            backdatas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                           'StationsBy': sb})
     price=(a['TicketPrice']).split(',')
     for i in range(len(price)):
-        price[i]=int(price[i])
+        price[i]=int(price[i])*people[i]
     retrundata = {
         'Price': price,
         'Datas': datas,
