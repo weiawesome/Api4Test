@@ -334,29 +334,44 @@ def book_page():
     Type = input['Type']
     Prefer=input['Prefer']
 
-    state = 'False'
     if (BackOrder != 'None'):
         state = 'True'
+        j = {
+            "CommandType": "Book",
+            "ID": ID,
+            "OneWayReturn": state,
+            "StartDate": StartDate,
+            "BackDate": BackDate,
+            "StartStation": StartStation,
+            "ArriveStation": ArriveStation,
+            "Tickets": Tickets,
+            "Order": Order,
+            "Type": Type,
+            "Prefer": Prefer
+        }
+    else:
+        state = 'False'
+        j = {
+            "CommandType": "Book",
+            "ID": ID,
+            "OneWayReturn": state,
+            "StartDate": StartDate,
+            "BackDate": BackDate,
+            "StartStation": StartStation,
+            "ArriveStation": ArriveStation,
+            "Tickets": Tickets,
+            "Order": Order,
+            "BackOrder": BackOrder,
+            "Type": Type,
+            "Prefer": Prefer
+        }
 
     HOST = '140.136.151.128'
     PORT = 10001
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
-    j = {
-        "CommandType": "Book",
-        "ID": ID,
-        "OneWayReturn": state,
-        "StartDate": StartDate,
-        "BackDate": BackDate,
-        "StartStation": StartStation,
-        "ArriveStation": ArriveStation,
-        "Tickets": Tickets,
-        "Order": Order,
-        "BackOrder": BackOrder,
-        "Type": Type,
-        "Prefer": Prefer
-    }
+    
 
     outdata = json.dumps(j)
     print(outdata)
