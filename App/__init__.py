@@ -60,18 +60,12 @@ def test_page():
     size = len(data)
     s.sendall(struct.pack("!H", size))
     s.sendall(data)
-    indata = s.recv(1024)
-    print(type(indata))
-    print(indata)
-    buffer = []
-
-    while True:
+    indata=s.recv(1024)
+    while (indata.decode('unicode_escape')[-1]!='#'):
         a = s.recv(1024)
-        if(a):
-            indata+=a
-        else:
-            break
-    a = indata.decode('unicode_escape')[2:]
+        indata+=a
+    print(indata)
+    a=indata.decode('unicode_escape')[2:-1]
     a=json.loads(a)
     print(a)
 
