@@ -60,8 +60,14 @@ def test_page():
     size = len(data)
     s.sendall(struct.pack("!H", size))
     s.sendall(data)
+    indata=''
     print('has do it')
-    indata = s.recv(1024)
+    while True:
+        gets = s.recv(1024)
+        if (gets):
+            indata += gets
+        else:
+            break
     print(type(indata))
     a = indata.decode('unicode_escape')[2:]
     a=json.loads(a)
