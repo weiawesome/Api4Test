@@ -95,8 +95,11 @@ def test_page():
             backdatas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                           'StationsBy': sb})
     price=(a['TicketPrice']).split(',')
+    people=people.split(',')
     for i in range(len(price)):
-        price[i]=int(price[i])*people[i]
+        price[i]=int(price[i])*int(people[i])
+        if(state=='False'):
+            price[i]*=2
     retrundata = {
         'Price': price,
         'Datas': datas,
