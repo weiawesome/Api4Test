@@ -95,6 +95,7 @@ def test_page():
             backdatas.append({'StartTime': i['StartTime'][:5], 'ArriveTime': i['ArriveTime'][:5], 'TotalTime': '2時 06分', 'Order': i['Order'],
                           'StationsBy': sb})
     price=(a['TicketPrice']).split(',')
+    price[2],price[3],price[4]=price[1],price[1],int(price[0])*0.88
     people=people.split(',')
     for i in range(len(price)):
         price[i]=int(price[i])*int(people[i])
