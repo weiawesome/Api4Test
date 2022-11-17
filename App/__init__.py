@@ -241,7 +241,7 @@ def check_page():
     print('has do it')
     indata = s.recv(1024)
     print(type(indata))
-    a=indata.decode('unicode_escape')[2:]
+    a=indata.decode('unicode_escape')[2:-1]
     a=json.loads(a)
     print(a)
     data_set = {'Status': a['Status']}
