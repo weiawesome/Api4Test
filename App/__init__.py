@@ -33,7 +33,7 @@ def test_page():
     traintype = input['Type']
     people = input['Tickets']
     prefer = input['Prefer']
-    print(gotime)
+    print(gotime[15:])
     print(oneway_return)
     state='False'
     if(oneway_return!='true'):
