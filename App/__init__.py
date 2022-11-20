@@ -50,6 +50,7 @@ def test_page():
         "Type": traintype,
         "Prefer": prefer
     }
+    print(j)
     HOST = '140.136.151.128'
     PORT = 10001
 
