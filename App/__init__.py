@@ -386,7 +386,8 @@ def book_page():
     a = indata.decode('unicode_escape')[2:-1]
     a = json.loads(a)
     print(a)
-
+    seats=[]
+    backseats=[]
     seat1=a['GoSeat1'].split(',')
     seat2 = a['GoSeat2'].split(',')
     seat3 = a['GoSeat3'].split(',')
@@ -402,6 +403,7 @@ def book_page():
         seat4[i]=seat4[i].replace('cabin','車')
     for i in range(len(seat5)):
         seat5[i]=seat5[i].replace('cabin','車')
+    seats = [seat1, seat2, seat3, seat4]
     if (BackOrder != 'None'):
         backseat1 = a['BackSeat1'].split(',')
         backseat2 = a['BackSeat2'].split(',')
@@ -418,10 +420,11 @@ def book_page():
             backseat4[i] = backseat4[i].replace('cabin', '車')
         for i in range(len(backseat5)):
             backseat5[i] = backseat5[i].replace('cabin', '車')
+        backseats = [backseat1, backseat2, backseat3, backseat4]
 
 
 
-    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat': [seat1,seat2,seat3,seat4,seat5], 'BackSeat': [backseat1,backseat2,backseat3,backseat4,backseat5]}
+    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat':seats, 'BackSeat': backseats}
     json_dump = json.dumps(data_set)
 
     return json_dump
