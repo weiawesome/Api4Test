@@ -386,18 +386,41 @@ def book_page():
     a = json.loads(a)
     print(a)
 
-    backseat=[]
-    seat=a['GoSeat'].split(',')
-    for i in range(len(seat)):
-        seat[i]=seat[i].replace('cabin','車')
+    seat1=a['GoSeat1'].split(',')
+    seat2 = a['GoSeat2'].split(',')
+    seat3 = a['GoSeat3'].split(',')
+    seat4 = a['GoSeat4'].split(',')
+    seat5 = a['GoSeat5'].split(',')
+    for i in range(len(seat1)):
+        seat1[i]=seat1[i].replace('cabin','車')
+    for i in range(len(seat2)):
+        seat2[i]=seat2[i].replace('cabin','車')
+    for i in range(len(seat3)):
+        seat3[i]=seat3[i].replace('cabin','車')
+    for i in range(len(seat4)):
+        seat4[i]=seat4[i].replace('cabin','車')
+    for i in range(len(seat5)):
+        seat5[i]=seat5[i].replace('cabin','車')
     if (BackOrder != 'None'):
-        backseat = a['BackSeat'].split(',')
-        for i in range(len(backseat)):
-            backseat[i] = backseat[i].replace('cabin', '車')
+        backseat1 = a['BackSeat1'].split(',')
+        backseat2 = a['BackSeat2'].split(',')
+        backseat3 = a['BackSeat3'].split(',')
+        backseat4 = a['BackSeat4'].split(',')
+        backseat5 = a['BackSeat5'].split(',')
+        for i in range(len(backseat1)):
+            backseat1[i] = backseat1[i].replace('cabin', '車')
+        for i in range(len(backseat2)):
+            backseat2[i] = backseat2[i].replace('cabin', '車')
+        for i in range(len(backseat3)):
+            backseat3[i] = backseat3[i].replace('cabin', '車')
+        for i in range(len(backseat4)):
+            backseat4[i] = backseat4[i].replace('cabin', '車')
+        for i in range(len(backseat5)):
+            backseat5[i] = backseat5[i].replace('cabin', '車')
 
 
 
-    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat': seat, 'BackSeat': backseat}
+    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat': [seat1,seat2,seat3,seat4,seat5], 'BackSeat': [backseat1,backseat2,backseat3,backseat4,backseat5]}
     json_dump = json.dumps(data_set)
 
     return json_dump
