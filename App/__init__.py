@@ -22,6 +22,7 @@ def GetDataFromSocket(commands):
         DataIn += buffer
     result = DataIn.decode('unicode_escape')[2:-1]
     result = json.loads(result)
+    s.close()
     return result
 
 
@@ -92,7 +93,7 @@ def test_page():
         'BackDatas': backdatas
     }
     json_dump = json.dumps(retrundata)
-    s.close()
+    
     return json_dump
 
 
