@@ -1,25 +1,28 @@
 from flask import *
-import time, json
-import datetime
 import random
 import json
 import socket
 import struct
 
 app = Flask(__name__)
-chiness_weeksate = ['零', '一', '二', '三', '四', '五', '六', '日']
 
-
-@app.route('/user/', methods=['GET'])
-def request_page():
-    user_query = str(request.args.get('user'))
-    # print(user_query)
-    data_set = {'Page': 'Request', 'Messege': f'Sucess got the request for {user_query}', 'Timestamp': time.time()}
-    json_dump = json.dumps(data_set)
-    return json_dump
-
-
-import json
+HOST = '140.136.151.128'
+PORT = 10001
+def GetDataFromSocket(commands):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    DataOut = json.dumps(commands)
+    data = bytearray(DataOut, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    DataIn = s.recv(1024)
+    while (DataIn.decode('unicode_escape')[-1] != '#'):
+        buffer = s.recv(1024)
+        DataIn += buffer
+    result = DataIn.decode('unicode_escape')[2:-1]
+    result = json.loads(result)
+    return result
 
 
 @app.route('/test/', methods=['POST'])
@@ -50,27 +53,7 @@ def test_page():
         "Type": traintype,
         "Prefer": prefer
     }
-    print(j)
-    HOST = '140.136.151.128'
-    PORT = 10001
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    outdata = json.dumps(j)
-    print(outdata)
-    data = bytearray(outdata, "utf8")
-    size = len(data)
-    s.sendall(struct.pack("!H", size))
-    s.sendall(data)
-    indata=s.recv(1024)
-    while (indata.decode('unicode_escape')[-1]!='#'):
-        a = s.recv(1024)
-        indata+=a
-    print(indata)
-    a=indata.decode('unicode_escape')[2:-1]
-    a=json.loads(a)
-    print(a)
-
+    a=GetDataFromSocket(j)
     def cmp(item):
         return int(item["StartTime"][:2]) * 60 + int(item["StartTime"][3:5]) * 1
     sorted(a['Datas'],key=cmp)
@@ -245,7 +228,30 @@ def timetable_page():
 def pay_page():
     input = request.get_json()
     BookID = input['BookID']
-    data_set = {'Status': 'True'}
+    j = {
+        "CommandType": "Pay",
+        "BookID": BookID
+    }
+    HOST = '140.136.151.128'
+    PORT = 10001
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    outdata = json.dumps(j)
+    print(outdata)
+    data = bytearray(outdata, "utf8")
+    size = len(data)
+    s.sendall(struct.pack("!H", size))
+    s.sendall(data)
+    indata = s.recv(1024)
+    while (indata.decode('unicode_escape')[-1] != '#'):
+        a = s.recv(1024)
+        indata += a
+    print(indata)
+    a = indata.decode('unicode_escape')[2:-1]
+    a = json.loads(a)
+    print(a)
+    data_set = {'Status': a['PayResult']}
     json_dump = json.dumps(data_set)
     return json_dump
 
@@ -423,8 +429,10 @@ def book_page():
         backseats = [backseat1, backseat2, backseat3, backseat4]
 
 
-
-    data_set = {'Status': a['Status'], 'Result': a['RecordID'], 'Seat':seats, 'BackSeat': backseats}
+    status='True'
+    if(a['RecordID']=='NoSeat'):
+        status='False'
+    data_set = {'Status': status, 'Result': a['RecordID'], 'Seat':seats, 'BackSeat': backseats}
     json_dump = json.dumps(data_set)
 
     return json_dump
@@ -480,12 +488,3 @@ def refundnow_page():
 
     return json_dump
 
-@app.route('/time/', methods=['GET'])
-def time_page():
-    t = datetime.datetime.today()
-    YMD = str(t.year) + '/' + str(t.month) + '/' + str(t.day)
-    HM = str(t.hour) + ':' + str(t.minute)
-    W = t.isoweekday()
-    data_set = {'YMD': YMD, 'HM': HM, 'W': W}
-    json_dump = json.dumps(data_set)
-    return json_dump
