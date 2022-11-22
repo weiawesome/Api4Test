@@ -265,6 +265,7 @@ def use_page():
     BookID = input['BookID']
     Order=input['Order']
     Seat=input['Seat']
+    Seat=str(Seat).replace('車','cabin')
     j={
         "CommandType": "Use",
         "BookID": BookID,
