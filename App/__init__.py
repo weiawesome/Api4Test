@@ -11,17 +11,20 @@ PORT = 10001
 def GetDataFromSocket(commands):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
+    print('connect')
     DataOut = json.dumps(commands)
     data = bytearray(DataOut, "utf8")
     size = len(data)
     s.sendall(struct.pack("!H", size))
     s.sendall(data)
+    print('sent')
     DataIn = s.recv(1024)
     while (DataIn.decode('unicode_escape')[-1] != '#'):
         buffer = s.recv(1024)
         DataIn += buffer
     result = DataIn.decode('unicode_escape')[2:-1]
     result = json.loads(result)
+    print(result)
     s.close()
     return result
 
