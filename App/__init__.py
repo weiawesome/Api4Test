@@ -273,7 +273,7 @@ def use_page():
         "Seat": Seat
     }
     a=GetDataFromSocket(j)
-    data_set = {'Status': a['UseResult']}
+    data_set = {'Status': a['UseResult'],'Out':'True'}
     json_dump = json.dumps(data_set)
     return json_dump
 
