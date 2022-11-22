@@ -11,20 +11,17 @@ PORT = 10001
 def GetDataFromSocket(commands):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
-    print('connect')
     DataOut = json.dumps(commands)
     data = bytearray(DataOut, "utf8")
     size = len(data)
     s.sendall(struct.pack("!H", size))
     s.sendall(data)
-    print('sent')
     DataIn = s.recv(1024)
     while (DataIn.decode('unicode_escape')[-1] != '#'):
         buffer = s.recv(1024)
         DataIn += buffer
     result = DataIn.decode('unicode_escape')[2:-1]
     result = json.loads(result)
-    print(result)
     s.close()
     return result
 
@@ -96,7 +93,7 @@ def test_page():
         'BackDatas': backdatas
     }
     json_dump = json.dumps(retrundata)
-    
+
     return json_dump
 
 
@@ -377,25 +374,7 @@ def book_page():
             "Prefer": Prefer
         }
 
-    HOST = '140.136.151.128'
-    PORT = 10001
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-
-
-    outdata = json.dumps(j)
-    print(outdata)
-    data = bytearray(outdata, "utf8")
-    size = len(data)
-    s.sendall(struct.pack("!H", size))
-    s.sendall(data)
-    print('has do it')
-    indata = s.recv(1024)
-    print(type(indata))
-    a = indata.decode('unicode_escape')[2:-1]
-    a = json.loads(a)
-    print(a)
+    a=GetDataFromSocket(j)
     seats=[]
     backseats=[]
     seat1=a['GoSeat1'].split(',')
@@ -413,7 +392,7 @@ def book_page():
         seat4[i]=seat4[i].replace('cabin','車')
     for i in range(len(seat5)):
         seat5[i]=seat5[i].replace('cabin','車')
-    seats = [seat1, seat2, seat3, seat4]
+    seats = [seat1, seat2, seat3, seat4,seat5]
     if (BackOrder != 'None'):
         backseat1 = a['BackSeat1'].split(',')
         backseat2 = a['BackSeat2'].split(',')
@@ -430,7 +409,7 @@ def book_page():
             backseat4[i] = backseat4[i].replace('cabin', '車')
         for i in range(len(backseat5)):
             backseat5[i] = backseat5[i].replace('cabin', '車')
-        backseats = [backseat1, backseat2, backseat3, backseat4]
+        backseats = [backseat1, backseat2, backseat3, backseat4,backseat5]
 
 
     status='True'
