@@ -185,25 +185,7 @@ def timetable_page():
         "Type": '標準車廂',
         "Prefer": '無偏好'
     }
-    HOST = '140.136.151.128'
-    PORT = 10001
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    outdata = json.dumps(j)
-    print(outdata)
-    data = bytearray(outdata, "utf8")
-    size = len(data)
-    s.sendall(struct.pack("!H", size))
-    s.sendall(data)
-    indata = s.recv(1024)
-    while (indata.decode('unicode_escape')[-1] != '#'):
-        a = s.recv(1024)
-        indata += a
-    print(indata)
-    a = indata.decode('unicode_escape')[2:-1]
-    a = json.loads(a)
-    print(a)
+    a=GetDataFromSocket(j)
 
     def cmp(item):
         return int(item["StartTime"][:2]) * 60 + int(item["StartTime"][3:5]) * 1
@@ -235,25 +217,8 @@ def pay_page():
         "CommandType": "Pay",
         "BookID": BookID
     }
-    HOST = '140.136.151.128'
-    PORT = 10001
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    outdata = json.dumps(j)
-    print(outdata)
-    data = bytearray(outdata, "utf8")
-    size = len(data)
-    s.sendall(struct.pack("!H", size))
-    s.sendall(data)
-    indata = s.recv(1024)
-    while (indata.decode('unicode_escape')[-1] != '#'):
-        a = s.recv(1024)
-        indata += a
-    print(indata)
-    a = indata.decode('unicode_escape')[2:-1]
-    a = json.loads(a)
-    print(a)
+    
+    a=GetDataFromSocket(j)
     data_set = {'Status': a['PayResult']}
     json_dump = json.dumps(data_set)
     return json_dump
@@ -273,7 +238,7 @@ def use_page():
         "Seat": Seat
     }
     a=GetDataFromSocket(j)
-    data_set = {'Status': a['UseResult'],'Out':'True'}
+    data_set = {'Status': a['UseResult']}
     json_dump = json.dumps(data_set)
     return json_dump
 
@@ -286,34 +251,16 @@ def check_page():
     ID = input['ID']
     Phone = input['Phone']
     Email = input['Email']
-    HOST = '140.136.151.128'
-    PORT = 10001
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
     j ={
       "CommandType": "CheckID",
       "ID": ID,
       "Phone": Phone,
       "Email": Email
     }
-
-
-    outdata = json.dumps(j)
-    print(outdata)
-    data = bytearray(outdata, "utf8")
-    size = len(data)
-    s.sendall(struct.pack("!H", size))
-    s.sendall(data)
-    print('has do it')
-    indata = s.recv(1024)
-    print(type(indata))
-    a=indata.decode('unicode_escape')[2:-1]
-    a=json.loads(a)
-    print(a)
+    a=GetDataFromSocket(j)
     data_set = {'Status': a['Status']}
     json_dump = json.dumps(data_set)
-    s.close()
     return json_dump
 
 @app.route('/findnow/', methods=['POST'])
@@ -477,8 +424,12 @@ def editnow_page():
 def refundnow_page():
     input = request.get_json()
     BookID=input['BookID']
-
-    data_set = {'Status': 'True'}
+    j={
+        "CommandType": "Refund",
+        "BookID": BookID
+    }
+    a=GetDataFromSocket(j)
+    data_set = {'Status': a['RefundResult']}
     json_dump = json.dumps(data_set)
 
     return json_dump
