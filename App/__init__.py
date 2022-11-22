@@ -22,6 +22,7 @@ def GetDataFromSocket(commands):
         DataIn += buffer
     result = DataIn.decode('unicode_escape')[2:-1]
     result = json.loads(result)
+    print(result)
     s.close()
     return result
 
