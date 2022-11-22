@@ -261,7 +261,16 @@ def pay_page():
 def use_page():
     input = request.get_json()
     BookID = input['BookID']
-    data_set = {'Status': 'True'}
+    Order=input['Order']
+    Seat=input['Seat']
+    j={
+        "CommandType": "Use",
+        "BookID": BookID,
+        "Order": Order,
+        "Seat": Seat
+    }
+    a=GetDataFromSocket(j)
+    data_set = {'Status': a['UseResult']}
     json_dump = json.dumps(data_set)
     return json_dump
 
