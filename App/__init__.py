@@ -9,6 +9,7 @@ app = Flask(__name__)
 HOST = '140.136.151.128'
 PORT = 10001
 def GetDataFromSocket(commands):
+    print(commands)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
     DataOut = json.dumps(commands)
