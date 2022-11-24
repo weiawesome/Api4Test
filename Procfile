@@ -1,1 +1,1 @@
-web gunicorn run:app
+web gunicorn -t 60000 run:app
