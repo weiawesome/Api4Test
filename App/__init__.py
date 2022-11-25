@@ -1,5 +1,4 @@
 from flask import *
-import random
 import json
 import socket
 import struct
@@ -41,7 +40,8 @@ def GetDataFromSocket(commands):
     while (DataIn.decode('unicode_escape')[-1] != '#'):
         buffer = s.recv(1024)
         DataIn += buffer
-    result = DataIn.decode('unicode_escape')[2:-1]
+    DataIn=DataIn[2:]
+    result = DataIn.decode('utf-8')[:-1]
     result = json.loads(result)
     print('Data get!')
     print(result)
@@ -145,15 +145,14 @@ def GetTrains_page():
     return Json_Dump
 
 
-@app.route('/edit/', methods=['POST'])
-def edit_page():
+@app.route('/GetEditDatas/', methods=['POST'])
+def GetEditDatas_page():
     input = request.get_json()
     StartStation = input['StartStation']
     ArriveStation = input['ArriveStation']
     StartTime = input['StartTime']
     Type = input['Type']
     Tickets = input['Tickets']
-
 
     Command = {
         "CommandType": "GetTrains",
@@ -204,60 +203,70 @@ def edit_page():
     RetrunDatas = {
         'Price': Price,
         'Datas': Datas,
-        'Fees':[]
+        'Fees': []
     }
     Json_Dump = json.dumps(RetrunDatas)
 
     return Json_Dump
 
 
-@app.route('/getlose/', methods=['POST'])
-def getlose_page():
+@app.route('/FindLose/', methods=['POST'])
+def FindLose_page():
     input = request.get_json()
     ID = input['ID']
     BookID = input['BookID']
 
-    j={
+    Command = {
         "CommandType": "FindLose",
         "ID": ID,
         "BookID": BookID
     }
-    a=GetDataFromSocket(j)
-    ts=str(a['Tickets']).split(',')
-    ps=str(a['Prices']).split(',')
+    Result = GetDataFromSocket(Command)
+    ts = str(Result['Tickets']).split(',')
+    ps = str(Result['Prices']).split(',')
     for i in range(len(ts)):
-        ts[i]=int(ts[i])
+        ts[i] = int(ts[i])
     for i in range(len(ps)):
-        ps[i]=int(ps[i])
-    retrundata = {
-        'Status': a['Status'],
-        'StartStation': a['Data1']['StartStation'],
-        'ArriveStation': a['Data1']['ArriveStation'],
-        'OnewayReturn': a['OnewayReturn'],
-        'Type': a['Type'],
+        ps[i] = int(ps[i])
+    RetrunData = {
+        'Status': Result['Status'],
+        'StartStation': Result['Data1']['StartStation'],
+        'ArriveStation': Result['Data1']['ArriveStation'],
+        'OnewayReturn': Result['OnewayReturn'],
+        'Type': Result['Type'],
         'Start': {
-            'Date': str(a['Data1']['Date'][:10]).replace('-','/'),
-            'StartTime': a['Data1']['StartTime'],
-            'ArriveTime': a['Data1']['ArriveTime'],
+            'Date': str(Result['Data1']['Date'][:10]).replace('-', '/'),
+            'StartTime': Result['Data1']['StartTime'],
+            'ArriveTime': Result['Data1']['ArriveTime'],
             'TotalTime': '',
-            'Order': a['Data1']['Order'],
-            'Seat': [str((a['Data1']['Seat1']).replace('cabin','車')).split(','), str((a['Data1']['Seat2']).replace('cabin','車')).split(','), str((a['Data1']['Seat3']).replace('cabin','車')).split(','),str((a['Data1']['Seat3']).replace('cabin','車')).split(','),str((a['Data1']['Seat4']).replace('cabin','車')).split(','),str((a['Data1']['Seat5']).replace('cabin','車')).split(',')],
-            'StationsBy': GetStationsBy(a['Data1']['StationsBy'])
+            'Order': Result['Data1']['Order'],
+            'Seat': [str((Result['Data1']['Seat1']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat2']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat4']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat5']).replace('cabin', '車')).split(',')],
+            'StationsBy': GetStationsBy(Result['Data1']['StationsBy'])
         },
-        'Arrive': {} if(a['OnewayReturn']=='False') else {
-            'Date': str(a['Data2']['Date'][:10]).replace('-','/'),
-            'StartTime': a['Data2']['StartTime'],
-            'ArriveTime': a['Data2']['ArriveTime'],
+        'Arrive': {} if (Result['OnewayReturn'] == 'False') else {
+            'Date': str(Result['Data2']['Date'][:10]).replace('-', '/'),
+            'StartTime': Result['Data2']['StartTime'],
+            'ArriveTime': Result['Data2']['ArriveTime'],
             'TotalTime': '',
-            'Order': a['Data2']['Order'],
-            'Seat': [str((a['Data2']['Seat1']).replace('cabin','車')).split(','), str((a['Data1']['Seat2']).replace('cabin','車')).split(','), str((a['Data1']['Seat3']).replace('cabin','車')).split(','),str((a['Data1']['Seat3']).replace('cabin','車')).split(','),str((a['Data1']['Seat4']).replace('cabin','車')).split(','),str((a['Data1']['Seat5']).replace('cabin','車')).split(',')],
-            'StationsBy': GetStationsBy(a['Data2']['StationsBy'])
+            'Order': Result['Data2']['Order'],
+            'Seat': [str((Result['Data2']['Seat1']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat2']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat4']).replace('cabin', '車')).split(','),
+                     str((Result['Data1']['Seat5']).replace('cabin', '車')).split(',')],
+            'StationsBy': GetStationsBy(Result['Data2']['StationsBy'])
         },
         'Tickets': ts,
         'Prices': ps,
     }
 
-    Json_Dump = json.dumps(retrundata)
+    Json_Dump = json.dumps(RetrunData)
     return Json_Dump
 
 
@@ -317,59 +326,59 @@ def TimeTable_page():
     return Json_Dump
 
 
-@app.route('/pay/', methods=['POST'])
-def pay_page():
+@app.route('/Pay/', methods=['POST'])
+def Pay_page():
     input = request.get_json()
     BookID = input['BookID']
-    j = {
+    Command = {
         "CommandType": "Pay",
         "BookID": BookID
     }
 
-    a = GetDataFromSocket(j)
-    data_set = {'Status': a['PayResult']}
+    Result = GetDataFromSocket(Command)
+    data_set = {'Status': Result['PayResult']}
     Json_Dump = json.dumps(data_set)
     return Json_Dump
 
 
-@app.route('/use/', methods=['POST'])
-def use_page():
+@app.route('/Use/', methods=['POST'])
+def Use_page():
     input = request.get_json()
     BookID = input['BookID']
-    OnewayReturn=input['OnewayReturn']
+    OnewayReturn = input['OnewayReturn']
     Order = input['Order']
     Seat = input['Seat']
     ArriveOrder = input['ArriveOrder']
     ArriveSeat = input['ArriveSeat']
     Seat = str(Seat).replace('車', 'cabin')
     ArriveSeat = str(ArriveSeat).replace('車', 'cabin')
-    j = {
+    Command = {
         "CommandType": "Use",
         "BookID": BookID,
         "Order": Order,
         "Seat": Seat
     }
-    a = GetDataFromSocket(j)
-    if(OnewayReturn!='true'):
-        data_set = {'Status': a['UseResult'], 'Out': 'True'}
+    Result = GetDataFromSocket(Command)
+    if (OnewayReturn != 'true'):
+        data_set = {'Status': Result['UseResult'], 'Out': 'True'}
     else:
-        if(a['UseResult']=='True'):
-            data_set = {'Status': a['UseResult'], 'Out': 'False'}
+        if (Result['UseResult'] == 'True'):
+            data_set = {'Status': Result['UseResult'], 'Out': 'False'}
         else:
-            j = {
+            Command = {
                 "CommandType": "Use",
                 "BookID": BookID,
                 "Order": ArriveOrder,
                 "Seat": ArriveSeat
             }
-            a = GetDataFromSocket(j)
-            data_set = {'Status': a['UseResult'], 'Out': 'True'}
+            Result = GetDataFromSocket(Command)
+            data_set = {'Status': Result['UseResult'], 'Out': 'True'}
     Json_Dump = json.dumps(data_set)
     return Json_Dump
 
 
-@app.route('/checkID/', methods=['POST'])
-def check_page():
+@app.route('/CheckID/', methods=['POST'])
+def CheckID_page():
     input = request.get_json()
     Name = input['Name']
     Gender = input['Gender']
@@ -377,45 +386,45 @@ def check_page():
     Phone = input['Phone']
     Email = input['Email']
 
-    j = {
+    Command = {
         "CommandType": "CheckID",
         "ID": ID,
         "Phone": Phone,
         "Email": Email
     }
-    a = GetDataFromSocket(j)
-    data_set = {'Status': a['Status']}
+    Result = GetDataFromSocket(Command)
+    data_set = {'Status': Result['Status']}
     Json_Dump = json.dumps(data_set)
     return Json_Dump
 
 
-@app.route('/findnow/', methods=['POST'])
-def findnow_page():
+@app.route('/FindCode/', methods=['POST'])
+def FindCode_page():
     input = request.get_json()
     StartStation = input['StartStation']
     ArriveStation = input['ArriveStation']
     StartTime = input['StartTime']
     Order = input['Order']
     ID = input['ID']
-    j={
-      "CommandType": "FindCode",
-      "StartStation": StartStation,
-      "ArriveStation": ArriveStation,
-      "StartDate": StartTime,
-      "Order": Order,
-      "ID": ID
+    Command = {
+        "CommandType": "FindCode",
+        "StartStation": StartStation,
+        "ArriveStation": ArriveStation,
+        "StartDate": StartTime,
+        "Order": Order,
+        "ID": ID
     }
-    a=GetDataFromSocket(j)
-    datas = []
-    for i in a['Datas']:
-        datas.append({'Code': i['Code'], 'State': i['PayResult']})
-    data_set = {'Status': a['Status'], 'Datas': datas}
+    Result = GetDataFromSocket(Command)
+    Datas = []
+    for i in Result['Datas']:
+        Datas.append({'Code': i['Code'], 'State': i['PayResult']})
+    data_set = {'Status': Result['Status'], 'Datas': Datas}
     Json_Dump = json.dumps(data_set)
     return Json_Dump
 
 
-@app.route('/book/', methods=['POST'])
-def book_page():
+@app.route('/Book/', methods=['POST'])
+def Book_page():
     input = request.get_json()
     Name = input['Name']
     ID = input['ID']
@@ -435,11 +444,11 @@ def book_page():
     Prefer = input['Prefer']
 
     if (BackOrder == 'None'):
-        state = 'True'
-        j = {
+        State = 'True'
+        Command = {
             "CommandType": "Book",
             "ID": ID,
-            "OneWayReturn": state,
+            "OneWayReturn": State,
             "StartDate": StartDate[0:10],
             "StartStation": StartStation,
             "ArriveStation": ArriveStation,
@@ -449,11 +458,11 @@ def book_page():
             "Prefer": Prefer
         }
     else:
-        state = 'False'
-        j = {
+        State = 'False'
+        Command = {
             "CommandType": "Book",
             "ID": ID,
-            "OneWayReturn": state,
+            "OneWayReturn": State,
             "StartDate": StartDate[0:10],
             "BackDate": BackDate[0:10],
             "StartStation": StartStation,
@@ -465,54 +474,56 @@ def book_page():
             "Prefer": Prefer
         }
 
-    a = GetDataFromSocket(j)
-    seats = []
-    backseats = []
-    seat1 = a['GoSeat1'].split(',')
-    seat2 = a['GoSeat2'].split(',')
-    seat3 = a['GoSeat3'].split(',')
-    seat4 = a['GoSeat4'].split(',')
-    seat5 = a['GoSeat5'].split(',')
-    for i in range(len(seat1)):
-        seat1[i] = seat1[i].replace('cabin', '車')
-    for i in range(len(seat2)):
-        seat2[i] = seat2[i].replace('cabin', '車')
-    for i in range(len(seat3)):
-        seat3[i] = seat3[i].replace('cabin', '車')
-    for i in range(len(seat4)):
-        seat4[i] = seat4[i].replace('cabin', '車')
-    for i in range(len(seat5)):
-        seat5[i] = seat5[i].replace('cabin', '車')
-    seats = [seat1, seat2, seat3, seat4, seat5]
+    Result = GetDataFromSocket(Command)
+    Seats = []
+    BackSeats = []
+    Seat1 = Result['GoSeat1'].split(',')
+    Seat2 = Result['GoSeat2'].split(',')
+    Seat3 = Result['GoSeat3'].split(',')
+    Seat4 = Result['GoSeat4'].split(',')
+    Seat5 = Result['GoSeat5'].split(',')
+    for i in range(len(Seat1)):
+        Seat1[i] = Seat1[i].replace('cabin', '車')
+    for i in range(len(Seat2)):
+        Seat2[i] = Seat2[i].replace('cabin', '車')
+    for i in range(len(Seat3)):
+        Seat3[i] = Seat3[i].replace('cabin', '車')
+    for i in range(len(Seat4)):
+        Seat4[i] = Seat4[i].replace('cabin', '車')
+    for i in range(len(Seat5)):
+        Seat5[i] = Seat5[i].replace('cabin', '車')
+    Seats = [Seat1, Seat2, Seat3, Seat4, Seat5]
     if (BackOrder != 'None'):
-        backseat1 = a['BackSeat1'].split(',')
-        backseat2 = a['BackSeat2'].split(',')
-        backseat3 = a['BackSeat3'].split(',')
-        backseat4 = a['BackSeat4'].split(',')
-        backseat5 = a['BackSeat5'].split(',')
-        for i in range(len(backseat1)):
-            backseat1[i] = backseat1[i].replace('cabin', '車')
-        for i in range(len(backseat2)):
-            backseat2[i] = backseat2[i].replace('cabin', '車')
-        for i in range(len(backseat3)):
-            backseat3[i] = backseat3[i].replace('cabin', '車')
-        for i in range(len(backseat4)):
-            backseat4[i] = backseat4[i].replace('cabin', '車')
-        for i in range(len(backseat5)):
-            backseat5[i] = backseat5[i].replace('cabin', '車')
-        backseats = [backseat1, backseat2, backseat3, backseat4, backseat5]
+        BackSeat1 = Result['BackSeat1'].split(',')
+        BackSeat2 = Result['BackSeat2'].split(',')
+        BackSeat3 = Result['BackSeat3'].split(',')
+        BackSeat4 = Result['BackSeat4'].split(',')
+        BackSeat5 = Result['BackSeat5'].split(',')
+        for i in range(len(BackSeat1)):
+            BackSeat1[i] = BackSeat1[i].replace('cabin', '車')
+        for i in range(len(BackSeat2)):
+            BackSeat2[i] = BackSeat2[i].replace('cabin', '車')
+        for i in range(len(BackSeat3)):
+            BackSeat3[i] = BackSeat3[i].replace('cabin', '車')
+        for i in range(len(BackSeat4)):
+            BackSeat4[i] = BackSeat4[i].replace('cabin', '車')
+        for i in range(len(BackSeat5)):
+            BackSeat5[i] = BackSeat5[i].replace('cabin', '車')
+        BackSeats = [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5]
 
-    status = 'True'
-    if (a['RecordID'] == 'NoSeat'):
-        status = 'False'
-    data_set = {'Status': status, 'Result': a['RecordID'], 'Seat': seats, 'BackSeat': backseats}
+    Status=''
+    if (Result['RecordID'] == 'NoSeat'):
+        Status = 'False'
+    else:
+        Status = 'True'
+    data_set = {'Status': Status, 'BookID': Result['RecordID'], 'Seat': Seats, 'BackSeat': BackSeats}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
 
 
-@app.route('/editnow/', methods=['POST'])
-def editnow_page():
+@app.route('/Edit/', methods=['POST'])
+def Edit_page():
     input = request.get_json()
     BookID = input['BookID']
     StartDate = input['StartDate']
@@ -525,70 +536,70 @@ def editnow_page():
     BackArriveTime = input['BackArriveTime']
     Tickets = input['Tickets']
 
-    j={
+    Command = {
         "CommandType": "Edit",
         "BookID": BookID,
-        "OneWayReturn": "False" if BackOrder=='None' else 'True',
+        "OneWayReturn": "False" if BackOrder == 'None' else 'True',
         "StartDate": StartDate[:10],
-        "BackDate": '' if BackOrder=='None' else BackDate[0:10],
+        "BackDate": "" if BackOrder == 'None' else BackDate[:10],
         "Order": Order,
         "BackOrder": BackOrder
     }
-    
-    a=GetDataFromSocket(j)
 
-    seats = []
-    backseats = []
-    seat1 = a['GoSeat1'].split(',')
-    seat2 = a['GoSeat2'].split(',')
-    seat3 = a['GoSeat3'].split(',')
-    seat4 = a['GoSeat4'].split(',')
-    seat5 = a['GoSeat5'].split(',')
-    for i in range(len(seat1)):
-        seat1[i] = seat1[i].replace('cabin', '車')
-    for i in range(len(seat2)):
-        seat2[i] = seat2[i].replace('cabin', '車')
-    for i in range(len(seat3)):
-        seat3[i] = seat3[i].replace('cabin', '車')
-    for i in range(len(seat4)):
-        seat4[i] = seat4[i].replace('cabin', '車')
-    for i in range(len(seat5)):
-        seat5[i] = seat5[i].replace('cabin', '車')
-    seats = [seat1, seat2, seat3, seat4, seat5]
+    Result = GetDataFromSocket(Command)
+
+    Seats = []
+    BackSeats = []
+    Seat1 = Result['GoSeat1'].split(',')
+    Seat2 = Result['GoSeat2'].split(',')
+    Seat3 = Result['GoSeat3'].split(',')
+    Seat4 = Result['GoSeat4'].split(',')
+    Seat5 = Result['GoSeat5'].split(',')
+    for i in range(len(Seat1)):
+        Seat1[i] = Seat1[i].replace('cabin', '車')
+    for i in range(len(Seat2)):
+        Seat2[i] = Seat2[i].replace('cabin', '車')
+    for i in range(len(Seat3)):
+        Seat3[i] = Seat3[i].replace('cabin', '車')
+    for i in range(len(Seat4)):
+        Seat4[i] = Seat4[i].replace('cabin', '車')
+    for i in range(len(Seat5)):
+        Seat5[i] = Seat5[i].replace('cabin', '車')
+    Seats = [Seat1, Seat2, Seat3, Seat4, Seat5]
     if (BackOrder != 'None'):
-        backseat1 = a['BackSeat1'].split(',')
-        backseat2 = a['BackSeat2'].split(',')
-        backseat3 = a['BackSeat3'].split(',')
-        backseat4 = a['BackSeat4'].split(',')
-        backseat5 = a['BackSeat5'].split(',')
-        for i in range(len(backseat1)):
-            backseat1[i] = backseat1[i].replace('cabin', '車')
-        for i in range(len(backseat2)):
-            backseat2[i] = backseat2[i].replace('cabin', '車')
-        for i in range(len(backseat3)):
-            backseat3[i] = backseat3[i].replace('cabin', '車')
-        for i in range(len(backseat4)):
-            backseat4[i] = backseat4[i].replace('cabin', '車')
-        for i in range(len(backseat5)):
-            backseat5[i] = backseat5[i].replace('cabin', '車')
-        backseats = [backseat1, backseat2, backseat3, backseat4, backseat5]
+        BackSeat1 = Result['BackSeat1'].split(',')
+        BackSeat2 = Result['BackSeat2'].split(',')
+        BackSeat3 = Result['BackSeat3'].split(',')
+        BackSeat4 = Result['BackSeat4'].split(',')
+        BackSeat5 = Result['BackSeat5'].split(',')
+        for i in range(len(BackSeat1)):
+            BackSeat1[i] = BackSeat1[i].replace('cabin', '車')
+        for i in range(len(BackSeat2)):
+            BackSeat2[i] = BackSeat2[i].replace('cabin', '車')
+        for i in range(len(BackSeat3)):
+            BackSeat3[i] = BackSeat3[i].replace('cabin', '車')
+        for i in range(len(BackSeat4)):
+            BackSeat4[i] = BackSeat4[i].replace('cabin', '車')
+        for i in range(len(BackSeat5)):
+            BackSeat5[i] = BackSeat5[i].replace('cabin', '車')
+        BackSeats = [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5]
 
-    data_set = {'Status': a['Status'], 'Seat': seats, 'BackSeat': backseats}
+    data_set = {'Status': Result['Status'], 'Seat': Seats, 'BackSeat': BackSeats}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
 
 
-@app.route('/refundnow/', methods=['POST'])
-def refundnow_page():
+@app.route('/Refund/', methods=['POST'])
+def Refund_page():
     input = request.get_json()
     BookID = input['BookID']
-    j = {
+    Command = {
         "CommandType": "Refund",
         "BookID": BookID
     }
-    a = GetDataFromSocket(j)
-    data_set = {'Status': a['RefundResult']}
+    Result = GetDataFromSocket(Command)
+    data_set = {'Status': Result['RefundResult']}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
