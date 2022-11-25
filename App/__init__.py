@@ -273,8 +273,8 @@ def FindLose_page():
             'Type': Result['Type'],
             'Start': {
                 'Date': str(Result['Data1'][0]['Date'][:10]).replace('-', '/'),
-                'StartTime': Result['Data1'][0]['StartTime'],
-                'ArriveTime': Result['Data1'][0]['ArriveTime'],
+                'StartTime': Result['Data1'][0]['StartTime'][:5],
+                'ArriveTime': Result['Data1'][0]['ArriveTime'][:5],
                 'TotalTime': '',
                 'Order': Result['Data1'][0]['Order'],
                 'Seat': [Seat1,Seat2,Seat3,Seat4,Seat5],
@@ -339,8 +339,8 @@ def FindLose_page():
             ps[i] = int(ps[i])
         Data1={
                 'Date': str(Result['Data1'][0]['Date'][:10]).replace('-', '/'),
-                'StartTime': Result['Data1'][0]['StartTime'],
-                'ArriveTime': Result['Data1'][0]['ArriveTime'],
+                'StartTime': Result['Data1'][0]['StartTime'][:5],
+                'ArriveTime': Result['Data1'][0]['ArriveTime'][:5],
                 'TotalTime': '',
                 'Order': Result['Data1'][0]['Order'],
                 'Seat': [Seat1, Seat2, Seat3, Seat4, Seat5],
@@ -348,8 +348,8 @@ def FindLose_page():
             }
         Data2={
                 'Date': str(Result['Data2'][0]['Date'][:10]).replace('-', '/'),
-                'StartTime': Result['Data2'][0]['StartTime'],
-                'ArriveTime': Result['Data2'][0]['ArriveTime'],
+                'StartTime': Result['Data2'][0]['StartTime'][:5],
+                'ArriveTime': Result['Data2'][0]['ArriveTime'][:5],
                 'TotalTime': '',
                 'Order': Result['Data2'][0]['Order'],
                 'Seat': [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5],
