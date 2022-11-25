@@ -529,8 +529,8 @@ def editnow_page():
         "CommandType": "Edit",
         "BookID": BookID,
         "OneWayReturn": "False" if BackOrder=='None' else 'True',
-        "StartDate": StartDate,
-        "BackDate": BackDate,
+        "StartDate": StartDate[:10],
+        "BackDate": '' if BackOrder=='None' else BackDate[0:10],
         "Order": Order,
         "BackOrder": BackOrder
     }
