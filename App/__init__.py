@@ -185,6 +185,17 @@ def GetEditDatas_page():
                 'StationsBy': StationsBy
             }
         )
+    for i in Result['Datas']:
+        StationsBy = GetStationsBy(i['StationsBy'])
+        Datas.append(
+            {
+                'StartTime': i['StartTime'][:5],
+                'ArriveTime': i['ArriveTime'][:5],
+                'TotalTime': '',
+                'Order': i['Order'],
+                'StationsBy': StationsBy
+            }
+        )
 
     ################################################
     # Set the Price
@@ -222,49 +233,54 @@ def FindLose_page():
         "BookID": BookID
     }
     Result = GetDataFromSocket(Command)
-    ts = str(Result['Tickets']).split(',')
-    ps = str(Result['Prices']).split(',')
-    for i in range(len(ts)):
-        ts[i] = int(ts[i])
-    for i in range(len(ps)):
-        ps[i] = int(ps[i])
-    RetrunData = {
-        'Status': Result['Status'],
-        'StartStation': Result['Data1']['StartStation'],
-        'ArriveStation': Result['Data1']['ArriveStation'],
-        'OnewayReturn': Result['OnewayReturn'],
-        'Type': Result['Type'],
-        'Start': {
-            'Date': str(Result['Data1']['Date'][:10]).replace('-', '/'),
-            'StartTime': Result['Data1']['StartTime'],
-            'ArriveTime': Result['Data1']['ArriveTime'],
-            'TotalTime': '',
-            'Order': Result['Data1']['Order'],
-            'Seat': [str((Result['Data1']['Seat1']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat2']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat4']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat5']).replace('cabin', '車')).split(',')],
-            'StationsBy': GetStationsBy(Result['Data1']['StationsBy'])
-        },
-        'Arrive': {} if (Result['OnewayReturn'] == 'False') else {
-            'Date': str(Result['Data2']['Date'][:10]).replace('-', '/'),
-            'StartTime': Result['Data2']['StartTime'],
-            'ArriveTime': Result['Data2']['ArriveTime'],
-            'TotalTime': '',
-            'Order': Result['Data2']['Order'],
-            'Seat': [str((Result['Data2']['Seat1']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat2']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat3']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat4']).replace('cabin', '車')).split(','),
-                     str((Result['Data1']['Seat5']).replace('cabin', '車')).split(',')],
-            'StationsBy': GetStationsBy(Result['Data2']['StationsBy'])
-        },
-        'Tickets': ts,
-        'Prices': ps,
-    }
+    if (Result['OnewayReturn']=='NoData'):
+        RetrunData = {
+            'Status': 'False',
+        }
+    else:
+        ts = str(Result['Tickets']).split(',')
+        ps = str(Result['Prices']).split(',')
+        for i in range(len(ts)):
+            ts[i] = int(ts[i])
+        for i in range(len(ps)):
+            ps[i] = int(ps[i])
+        RetrunData = {
+            'Status': Result['Status'],
+            'StartStation': Result['Data1'][0]['StartStation'],
+            'ArriveStation': Result['Data1'][0]['ArriveStation'],
+            'OnewayReturn': Result['OnewayReturn'],
+            'Type': Result['Type'],
+            'Start': {
+                'Date': str(Result['Data1'][0]['Date'][:10]).replace('-', '/'),
+                'StartTime': Result['Data1'][0]['StartTime'],
+                'ArriveTime': Result['Data1'][0]['ArriveTime'],
+                'TotalTime': '',
+                'Order': Result['Data1'][0]['Order'],
+                'Seat': [str((Result['Data1'][0]['Seat1']).replace('cabin', '車')).split(','),
+                         str((Result['Data1'][0]['Seat2']).replace('cabin', '車')).split(','),
+                         str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(','),
+                         str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(','),
+                         str((Result['Data1'][0]['Seat4']).replace('cabin', '車')).split(','),
+                         str((Result['Data1'][0]['Seat5']).replace('cabin', '車')).split(',')],
+                'StationsBy': GetStationsBy(Result['Data1'][0]['StationsBy'])
+            },
+            'Arrive': {} if (Result['OnewayReturn'] == 'False') else {
+                'Date': str(Result['Data2'][0]['Date'][:10]).replace('-', '/'),
+                'StartTime': Result['Data2'][0]['StartTime'],
+                'ArriveTime': Result['Data2'][0]['ArriveTime'],
+                'TotalTime': '',
+                'Order': Result['Data2'][0]['Order'],
+                'Seat': [str((Result['Data2'][0]['Seat1']).replace('cabin', '車')).split(','),
+                         str((Result['Data2'][0]['Seat2']).replace('cabin', '車')).split(','),
+                         str((Result['Data2'][0]['Seat3']).replace('cabin', '車')).split(','),
+                         str((Result['Data2'][0]['Seat3']).replace('cabin', '車')).split(','),
+                         str((Result['Data2'][0]['Seat4']).replace('cabin', '車')).split(','),
+                         str((Result['Data2'][0]['Seat5']).replace('cabin', '車')).split(',')],
+                'StationsBy': GetStationsBy(Result['Data2'][0]['StationsBy'])
+            },
+            'Tickets': ts,
+            'Prices': ps,
+        }
 
     Json_Dump = json.dumps(RetrunData)
     return Json_Dump
