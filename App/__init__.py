@@ -137,6 +137,7 @@ def GetTrains_page():
     # Set the Return Datas and to Json type
     ################################################
     RetrunDatas = {
+        'Status':'False' if(len(Datas)==0 or len(BackDatas)==0) else 'True',
         'Price': Price,
         'Datas': Datas,
         'BackDatas': BackDatas
