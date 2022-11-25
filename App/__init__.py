@@ -129,7 +129,7 @@ def GetTrains_page():
     Tickets = Tickets.split(',')
     for i in range(len(Tickets)):
         Price[i] = int(Price[i]) * int(Tickets[i])
-        if (Tickets == 'False'):
+        if (S == 'False'):
             Price[i] *= 2
 
     ################################################
