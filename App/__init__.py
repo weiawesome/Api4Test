@@ -1,3 +1,4 @@
+import datetime
 from flask import *
 import json
 import socket
@@ -237,7 +238,27 @@ def FindLose_page():
         RetrunData = {
             'Status': 'False',
         }
-    else:
+    elif Result['OnewayReturn'] == 'False':
+        try:
+            Seat1=str((Result['Data1'][0]['Seat1']).replace('cabin', '車')).split(',')
+        except:
+            Seat1=[]
+        try:
+            Seat2=str((Result['Data1'][0]['Seat2']).replace('cabin', '車')).split(',')
+        except:
+            Seat2=[]
+        try:
+            Seat3=str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(',')
+        except:
+            Seat3=[]
+        try:
+            Seat4=str((Result['Data1'][0]['Seat4']).replace('cabin', '車')).split(',')
+        except:
+            Seat4=[]
+        try:
+            Seat5=str((Result['Data1'][0]['Seat5']).replace('cabin', '車')).split(',')
+        except:
+            Seat5=[]
         ts = str(Result['Tickets']).split(',')
         ps = str(Result['Prices']).split(',')
         for i in range(len(ts)):
@@ -256,32 +277,95 @@ def FindLose_page():
                 'ArriveTime': Result['Data1'][0]['ArriveTime'],
                 'TotalTime': '',
                 'Order': Result['Data1'][0]['Order'],
-                'Seat': [str((Result['Data1'][0]['Seat1']).replace('cabin', '車')).split(','),
-                         str((Result['Data1'][0]['Seat2']).replace('cabin', '車')).split(','),
-                         str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(','),
-                         str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(','),
-                         str((Result['Data1'][0]['Seat4']).replace('cabin', '車')).split(','),
-                         str((Result['Data1'][0]['Seat5']).replace('cabin', '車')).split(',')],
+                'Seat': [Seat1,Seat2,Seat3,Seat4,Seat5],
                 'StationsBy': GetStationsBy(Result['Data1'][0]['StationsBy'])
             },
-            'Arrive': {} if (Result['OnewayReturn'] == 'False') else {
+            'Arrive': {},
+            'Tickets': ts,
+            'Prices': ps,
+        }
+    else:
+        try:
+            Seat1=str((Result['Data1'][0]['Seat1']).replace('cabin', '車')).split(',')
+        except:
+            Seat1=[]
+        try:
+            Seat2=str((Result['Data1'][0]['Seat2']).replace('cabin', '車')).split(',')
+        except:
+            Seat2=[]
+        try:
+            Seat3=str((Result['Data1'][0]['Seat3']).replace('cabin', '車')).split(',')
+        except:
+            Seat3=[]
+        try:
+            Seat4=str((Result['Data1'][0]['Seat4']).replace('cabin', '車')).split(',')
+        except:
+            Seat4=[]
+        try:
+            Seat5=str((Result['Data1'][0]['Seat5']).replace('cabin', '車')).split(',')
+        except:
+            Seat5=[]
+        try:
+            BackSeat1=str((Result['Data2'][0]['Seat1']).replace('cabin', '車')).split(',')
+        except:
+            BackSeat1=[]
+        try:
+            BackSeat2=str((Result['Data2'][0]['Seat2']).replace('cabin', '車')).split(',')
+        except:
+            BackSeat2=[]
+        try:
+            BackSeat3=str((Result['Data2'][0]['Seat3']).replace('cabin', '車')).split(',')
+        except:
+            BackSeat3=[]
+        try:
+            BackSeat4=str((Result['Data2'][0]['Seat4']).replace('cabin', '車')).split(',')
+        except:
+            BackSeat4=[]
+        try:
+            BackSeat5=str((Result['Data2'][0]['Seat5']).replace('cabin', '車')).split(',')
+        except:
+            BackSeat5=[]
+        TimeOfD1=datetime.datetime.strptime(str(Result['Data1'][0]['Date'][:10])+'-'+Result['Data1'][0]['StartTime'], "%Y-%m-%d-%H:%M:%S")
+        TimeOfD2 = datetime.datetime.strptime(str(Result['Data2'][0]['Date'][:10]) + '-' + Result['Data2'][0]['StartTime'], "%Y-%m-%d-%H:%M:%S")
+        if(TimeOfD1>TimeOfD2):
+            State=False
+        else:
+            State=True
+        ts = str(Result['Tickets']).split(',')
+        ps = str(Result['Prices']).split(',')
+        for i in range(len(ts)):
+            ts[i] = int(ts[i])
+        for i in range(len(ps)):
+            ps[i] = int(ps[i])
+        Data1={
+                'Date': str(Result['Data1'][0]['Date'][:10]).replace('-', '/'),
+                'StartTime': Result['Data1'][0]['StartTime'],
+                'ArriveTime': Result['Data1'][0]['ArriveTime'],
+                'TotalTime': '',
+                'Order': Result['Data1'][0]['Order'],
+                'Seat': [Seat1, Seat2, Seat3, Seat4, Seat5],
+                'StationsBy': GetStationsBy(Result['Data1'][0]['StationsBy'])
+            }
+        Data2={
                 'Date': str(Result['Data2'][0]['Date'][:10]).replace('-', '/'),
                 'StartTime': Result['Data2'][0]['StartTime'],
                 'ArriveTime': Result['Data2'][0]['ArriveTime'],
                 'TotalTime': '',
                 'Order': Result['Data2'][0]['Order'],
-                'Seat': [str((Result['Data2'][0]['Seat1']).replace('cabin', '車')).split(','),
-                         str((Result['Data2'][0]['Seat2']).replace('cabin', '車')).split(','),
-                         str((Result['Data2'][0]['Seat3']).replace('cabin', '車')).split(','),
-                         str((Result['Data2'][0]['Seat3']).replace('cabin', '車')).split(','),
-                         str((Result['Data2'][0]['Seat4']).replace('cabin', '車')).split(','),
-                         str((Result['Data2'][0]['Seat5']).replace('cabin', '車')).split(',')],
+                'Seat': [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5],
                 'StationsBy': GetStationsBy(Result['Data2'][0]['StationsBy'])
-            },
+            }
+        RetrunData = {
+            'Status': Result['Status'],
+            'StartStation': Result['Data1'][0]['StartStation'] if State else Result['Data1'][0]['ArriveStation'],
+            'ArriveStation': Result['Data1'][0]['ArriveStation'] if State else Result['Data1'][0]['StartStation'],
+            'OnewayReturn': Result['OnewayReturn'],
+            'Type': Result['Type'],
+            'Start': Data1 if State else Data2,
+            'Arrive': Data2 if State else Data1,
             'Tickets': ts,
             'Prices': ps,
         }
-
     Json_Dump = json.dumps(RetrunData)
     return Json_Dump
 
