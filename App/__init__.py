@@ -358,6 +358,7 @@ def FindLose_page():
             'Tickets': ts,
             'Prices': ps,
         }
+    print(ts)
     Json_Dump = json.dumps(RetrunData)
     return Json_Dump
 
