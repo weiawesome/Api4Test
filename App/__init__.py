@@ -452,7 +452,7 @@ def Use_page():
     }
     Result = GetDataFromSocket(Command)
     print(OnewayReturn)
-    if (OnewayReturn != 'true'):
+    if (OnewayReturn!=True):
         data_set = {'Status': Result['UseResult'], 'Out': 'True'}
     else:
         if (Result['UseResult'] == 'True'):
