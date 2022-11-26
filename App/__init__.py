@@ -755,7 +755,7 @@ def HasTake_page():
         }
         Results.append(GetDataFromSocket(Command))
     for i in Results:
-        if (i['HasTakeResult'] == 'False'):
+        if (i['HasTakeResult'] == 'True'):
             data_set = {'Status': i['HasTakeResult']}
             break
         else:
