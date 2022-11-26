@@ -713,16 +713,23 @@ def Refund_page():
 def Take_page():
     input = request.get_json()
     BookID = input['BookID']
-    Order=input["Order"]
-    Seat=input["Seat"]
-    Command = {
-        "CommandType": "Take",
-        "BookID":BookID,
-        "Order": Order,
-        "Seat": Seat
-    }
-    Result = GetDataFromSocket(Command)
-    data_set = {'Status': Result['TakeResult']}
+    Datas=input['Datas']
+    Results=[]
+    for i in Datas:
+        Command = {
+            "CommandType": "Take",
+            "BookID":BookID,
+            "Order": i[0],
+            "Seat": i[1]
+        }
+        Results.append(GetDataFromSocket(Command))
+    for i in Results:
+        if(i['TakeResult']=='False'):
+            data_set = {'Status': i['TakeResult']}
+            break
+        else:
+            data_set = {'Status': i['TakeResult']}
+    
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
@@ -731,16 +738,22 @@ def Take_page():
 def HasTake_page():
     input = request.get_json()
     BookID = input['BookID']
-    Order=input["Order"]
-    Seat=input["Seat"]
-    Command = {
-        "CommandType": "HasTake",
-        "BookID":BookID,
-        "Order": Order,
-        "Seat": Seat
-    }
-    Result = GetDataFromSocket(Command)
-    data_set = {'Status': Result['HasTakeResult']}
+    Datas = input['Datas']
+    Results = []
+    for i in Datas:
+        Command = {
+            "CommandType": "HasTake",
+            "BookID": BookID,
+            "Order": i[0],
+            "Seat": i[1]
+        }
+        Results.append(GetDataFromSocket(Command))
+    for i in Results:
+        if (i['TakeResult'] == 'False'):
+            data_set = {'Status': i['TakeResult']}
+            break
+        else:
+            data_set = {'Status': i['TakeResult']}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
