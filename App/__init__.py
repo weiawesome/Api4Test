@@ -640,7 +640,7 @@ def Edit_page():
     Command = {
         "CommandType": "Edit",
         "BookID": BookID,
-        "OneWayReturn": "False" if BackOrder == 'None' else 'True',
+        "OneWayReturn": 'True' if BackOrder == 'None' else 'False',
         "StartDate": StartDate[:10],
         "BackDate": "" if BackOrder == 'None' else BackDate[:10],
         "Order": Order,
