@@ -137,7 +137,7 @@ def GetTrains_page():
     # Set the Return Datas and to Json type
     ################################################
     RetrunDatas = {
-        'Status':'False' if(len(Datas)==0 or len(BackDatas)==0) else 'True',
+        'Status':'False' if(len(Datas)==0 or (State=='False' and len(BackDatas)==0)) else 'True',
         'Price': Price,
         'Datas': Datas,
         'BackDatas': BackDatas
@@ -695,12 +695,52 @@ def Edit_page():
 def Refund_page():
     input = request.get_json()
     BookID = input['BookID']
+    Order=input['Order']
+    Seat=input['Seat']
     Command = {
         "CommandType": "Refund",
-        "BookID": BookID
+        "BookID": BookID,
+        "Order":Order,
+        "Seat":Seat
     }
     Result = GetDataFromSocket(Command)
     data_set = {'Status': Result['RefundResult']}
+    Json_Dump = json.dumps(data_set)
+
+    return Json_Dump
+
+@app.route('/Take/', methods=['POST'])
+def Take_page():
+    input = request.get_json()
+    BookID = input['BookID']
+    Order=input["Order"]
+    Seat=input["Seat"]
+    Command = {
+        "CommandType": "Take",
+        "BookID":BookID,
+        "Order": Order,
+        "Seat": Seat
+    }
+    Result = GetDataFromSocket(Command)
+    data_set = {'Status': Result['TakeResult']}
+    Json_Dump = json.dumps(data_set)
+
+    return Json_Dump
+
+@app.route('/HasTake/', methods=['POST'])
+def HasTake_page():
+    input = request.get_json()
+    BookID = input['BookID']
+    Order=input["Order"]
+    Seat=input["Seat"]
+    Command = {
+        "CommandType": "HasTake",
+        "BookID":BookID,
+        "Order": Order,
+        "Seat": Seat
+    }
+    Result = GetDataFromSocket(Command)
+    data_set = {'Status': Result['HasTakeResult']}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
