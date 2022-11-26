@@ -160,7 +160,7 @@ def GetEditDatas_page():
         "CommandType": "GetTrains",
         "StartStation": StartStation,
         "ArriveStation": ArriveStation,
-        "OneWayReturn": 'False',
+        "OneWayReturn": 'True',
         "StartDate": StartTime[0:10],
         "StartTime": StartTime[15:],
         "BackStartDate": '',
@@ -176,17 +176,6 @@ def GetEditDatas_page():
     ################################################
     Datas = []
 
-    for i in Result['Datas']:
-        StationsBy = GetStationsBy(i['StationsBy'])
-        Datas.append(
-            {
-                'StartTime': i['StartTime'][:5],
-                'ArriveTime': i['ArriveTime'][:5],
-                'TotalTime': '',
-                'Order': i['Order'],
-                'StationsBy': StationsBy
-            }
-        )
     for i in Result['Datas']:
         StationsBy = GetStationsBy(i['StationsBy'])
         Datas.append(
