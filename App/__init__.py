@@ -755,11 +755,11 @@ def HasTake_page():
         }
         Results.append(GetDataFromSocket(Command))
     for i in Results:
-        if (i['TakeResult'] == 'False'):
-            data_set = {'Status': i['TakeResult']}
+        if (i['HasTakeResult'] == 'False'):
+            data_set = {'Status': i['HasTakeResult']}
             break
         else:
-            data_set = {'Status': i['TakeResult']}
+            data_set = {'Status': i['HasTakeResult']}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
