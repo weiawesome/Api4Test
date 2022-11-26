@@ -326,7 +326,7 @@ def FindLose_page():
         ps = str(Result['Prices']).split(',')
         ps[2], ps[3], ps[4] = ps[1], ps[1], int(int(ps[1]) * 0.88)
         for i in range(len(ts)):
-            ts[i] = int(ts[i])/2
+            ts[i] = int(int(ts[i])/2)
         for i in range(len(ps)):
             ps[i] = int(ps[i])*ts[i]
         Data1={
