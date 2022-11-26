@@ -695,16 +695,22 @@ def Edit_page():
 def Refund_page():
     input = request.get_json()
     BookID = input['BookID']
-    Order=input['Order']
-    Seat=input['Seat']
-    Command = {
-        "CommandType": "Refund",
-        "BookID": BookID,
-        "Order":Order,
-        "Seat":Seat
-    }
-    Result = GetDataFromSocket(Command)
-    data_set = {'Status': Result['RefundResult']}
+    Datas=input['Datas']
+    Results=[]
+    for i in Datas:
+        Command = {
+            "CommandType": "Refund",
+            "BookID":BookID,
+            "Order": i[0],
+            "Seat": str(i[1]).replace('車','cabin')
+        }
+        Results.append(GetDataFromSocket(Command))
+    for i in Results:
+        if(i['RefundResult']=='False'):
+            data_set = {'Status': i['RefundResult']}
+            break
+        else:
+            data_set = {'Status': i['RefundResult']}
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
@@ -720,7 +726,7 @@ def Take_page():
             "CommandType": "Take",
             "BookID":BookID,
             "Order": i[0],
-            "Seat": i[1]
+            "Seat": str(i[1]).replace('車','cabin')
         }
         Results.append(GetDataFromSocket(Command))
     for i in Results:
@@ -729,7 +735,7 @@ def Take_page():
             break
         else:
             data_set = {'Status': i['TakeResult']}
-    
+
     Json_Dump = json.dumps(data_set)
 
     return Json_Dump
@@ -745,7 +751,7 @@ def HasTake_page():
             "CommandType": "HasTake",
             "BookID": BookID,
             "Order": i[0],
-            "Seat": i[1]
+            "Seat": str(i[1]).replace('車','cabin')
         }
         Results.append(GetDataFromSocket(Command))
     for i in Results:
