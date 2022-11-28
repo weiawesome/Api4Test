@@ -646,8 +646,16 @@ def Edit_page():
             "OriginBackSeat":"" if BackOrder == 'None' else str(Datas[3]).replace('車','cabin')
         }
         Result = GetDataFromSocket(Command)
-        Seats=[str(Result['GoSeat']).replace('cabin','車')]
-        BackSeats=[] if BackOrder == 'None' else [str(Result['BackSeat']).replace('cabin','車')]
+        Seats=['']*5
+        for i in range(len(Tickets)):
+            if(Tickets[i]==1):
+                Seats[i]=str(Result['GoSeat']).replace('cabin','車')
+
+        BackSeats=['']*5
+        if BackOrder != 'None':
+            for i in range(len(Tickets)):
+                if (Tickets[i] == 1):
+                    BackSeats[i]=str(Result['BackSeat']).replace('cabin','車')
     else:
         Command = {
             "CommandType": "Edit",
@@ -660,7 +668,7 @@ def Edit_page():
         }
 
         Result = GetDataFromSocket(Command)
-    
+
         Seats = []
         BackSeats = []
         Seat1 = Result['GoSeat1'].split(',')
