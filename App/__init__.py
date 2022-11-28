@@ -649,13 +649,13 @@ def Edit_page():
         Seats=['']*5
         for i in range(len(Tickets)):
             if(Tickets[i]==1):
-                Seats[i]=str(Result['GoSeat']).replace('cabin','車')
+                Seats[i]=[str(Result['GoSeat']).replace('cabin','車')]
 
         BackSeats=['']*5
         if BackOrder != 'None':
             for i in range(len(Tickets)):
                 if (Tickets[i] == 1):
-                    BackSeats[i]=str(Result['BackSeat']).replace('cabin','車')
+                    BackSeats[i]=[str(Result['BackSeat']).replace('cabin','車')]
     else:
         Command = {
             "CommandType": "Edit",
