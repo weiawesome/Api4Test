@@ -645,6 +645,9 @@ def Edit_page():
             "OriginBackOrder":"" if BackOrder == 'None' else Datas[2],
             "OriginBackSeat":"" if BackOrder == 'None' else str(Datas[3]).replace('車','cabin')
         }
+        Result = GetDataFromSocket(Command)
+        Seats=[str(Result['GoSeat']).replace('cabin','車')]
+        BackSeats=[] if BackOrder == 'None' else [str(Result['BackSeat']).replace('cabin','車')]
     else:
         Command = {
             "CommandType": "Edit",
@@ -656,43 +659,43 @@ def Edit_page():
             "BackOrder": BackOrder
         }
 
-    Result = GetDataFromSocket(Command)
-
-    Seats = []
-    BackSeats = []
-    Seat1 = Result['GoSeat1'].split(',')
-    Seat2 = Result['GoSeat2'].split(',')
-    Seat3 = Result['GoSeat3'].split(',')
-    Seat4 = Result['GoSeat4'].split(',')
-    Seat5 = Result['GoSeat5'].split(',')
-    for i in range(len(Seat1)):
-        Seat1[i] = Seat1[i].replace('cabin', '車')
-    for i in range(len(Seat2)):
-        Seat2[i] = Seat2[i].replace('cabin', '車')
-    for i in range(len(Seat3)):
-        Seat3[i] = Seat3[i].replace('cabin', '車')
-    for i in range(len(Seat4)):
-        Seat4[i] = Seat4[i].replace('cabin', '車')
-    for i in range(len(Seat5)):
-        Seat5[i] = Seat5[i].replace('cabin', '車')
-    Seats = [Seat1, Seat2, Seat3, Seat4, Seat5]
-    if (BackOrder != 'None'):
-        BackSeat1 = Result['BackSeat1'].split(',')
-        BackSeat2 = Result['BackSeat2'].split(',')
-        BackSeat3 = Result['BackSeat3'].split(',')
-        BackSeat4 = Result['BackSeat4'].split(',')
-        BackSeat5 = Result['BackSeat5'].split(',')
-        for i in range(len(BackSeat1)):
-            BackSeat1[i] = BackSeat1[i].replace('cabin', '車')
-        for i in range(len(BackSeat2)):
-            BackSeat2[i] = BackSeat2[i].replace('cabin', '車')
-        for i in range(len(BackSeat3)):
-            BackSeat3[i] = BackSeat3[i].replace('cabin', '車')
-        for i in range(len(BackSeat4)):
-            BackSeat4[i] = BackSeat4[i].replace('cabin', '車')
-        for i in range(len(BackSeat5)):
-            BackSeat5[i] = BackSeat5[i].replace('cabin', '車')
-        BackSeats = [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5]
+        Result = GetDataFromSocket(Command)
+    
+        Seats = []
+        BackSeats = []
+        Seat1 = Result['GoSeat1'].split(',')
+        Seat2 = Result['GoSeat2'].split(',')
+        Seat3 = Result['GoSeat3'].split(',')
+        Seat4 = Result['GoSeat4'].split(',')
+        Seat5 = Result['GoSeat5'].split(',')
+        for i in range(len(Seat1)):
+            Seat1[i] = Seat1[i].replace('cabin', '車')
+        for i in range(len(Seat2)):
+            Seat2[i] = Seat2[i].replace('cabin', '車')
+        for i in range(len(Seat3)):
+            Seat3[i] = Seat3[i].replace('cabin', '車')
+        for i in range(len(Seat4)):
+            Seat4[i] = Seat4[i].replace('cabin', '車')
+        for i in range(len(Seat5)):
+            Seat5[i] = Seat5[i].replace('cabin', '車')
+        Seats = [Seat1, Seat2, Seat3, Seat4, Seat5]
+        if (BackOrder != 'None'):
+            BackSeat1 = Result['BackSeat1'].split(',')
+            BackSeat2 = Result['BackSeat2'].split(',')
+            BackSeat3 = Result['BackSeat3'].split(',')
+            BackSeat4 = Result['BackSeat4'].split(',')
+            BackSeat5 = Result['BackSeat5'].split(',')
+            for i in range(len(BackSeat1)):
+                BackSeat1[i] = BackSeat1[i].replace('cabin', '車')
+            for i in range(len(BackSeat2)):
+                BackSeat2[i] = BackSeat2[i].replace('cabin', '車')
+            for i in range(len(BackSeat3)):
+                BackSeat3[i] = BackSeat3[i].replace('cabin', '車')
+            for i in range(len(BackSeat4)):
+                BackSeat4[i] = BackSeat4[i].replace('cabin', '車')
+            for i in range(len(BackSeat5)):
+                BackSeat5[i] = BackSeat5[i].replace('cabin', '車')
+            BackSeats = [BackSeat1, BackSeat2, BackSeat3, BackSeat4, BackSeat5]
 
     data_set = {'Status': Result['Status'], 'Seat': Seats, 'BackSeat': BackSeats}
     Json_Dump = json.dumps(data_set)
