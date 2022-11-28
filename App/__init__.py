@@ -641,9 +641,9 @@ def Edit_page():
             "Order": Order,
             "BackOrder": BackOrder,
             "OriginOrder":Datas[0],
-            "OriginSeat":Datas[1],
+            "OriginSeat":str(Datas[1]).replace('車','cabin'),
             "OriginBackOrder":"" if BackOrder == 'None' else Datas[2],
-            "OriginBackSeat":"" if BackOrder == 'None' else Datas[3]
+            "OriginBackSeat":"" if BackOrder == 'None' else str(Datas[3]).replace('車','cabin')
         }
     else:
         Command = {
