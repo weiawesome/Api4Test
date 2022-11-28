@@ -628,16 +628,33 @@ def Edit_page():
     BackStartTime = input['BackStartTime']
     BackArriveTime = input['BackArriveTime']
     Tickets = input['Tickets']
+    Datas=input['Datas']
+    BussinessState=input['BussinessState']
 
-    Command = {
-        "CommandType": "Edit",
-        "BookID": BookID,
-        "OneWayReturn": 'True' if BackOrder == 'None' else 'False',
-        "StartDate": StartDate[:10],
-        "BackDate": "" if BackOrder == 'None' else BackDate[:10],
-        "Order": Order,
-        "BackOrder": BackOrder
-    }
+    if(BussinessState):
+        Command = {
+            "CommandType": "PaidEdit",
+            "BookID": BookID,
+            "OneWayReturn": 'True' if BackOrder == 'None' else 'False',
+            "StartDate": StartDate[:10],
+            "BackDate": "" if BackOrder == 'None' else BackDate[:10],
+            "Order": Order,
+            "BackOrder": BackOrder,
+            "OriginOrder":Datas[0],
+            "OriginSeat":Datas[1],
+            "OriginBackOrder":"" if BackOrder == 'None' else Datas[2],
+            "OriginBackSeat":"" if BackOrder == 'None' else Datas[3]
+        }
+    else:
+        Command = {
+            "CommandType": "Edit",
+            "BookID": BookID,
+            "OneWayReturn": 'True' if BackOrder == 'None' else 'False',
+            "StartDate": StartDate[:10],
+            "BackDate": "" if BackOrder == 'None' else BackDate[:10],
+            "Order": Order,
+            "BackOrder": BackOrder
+        }
 
     Result = GetDataFromSocket(Command)
 
